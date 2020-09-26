@@ -16,8 +16,8 @@ module.exports = {
             password: req.body.password
         }
         try {
-            await User.create(user)
-            res.status(201).send(user)
+            await User.create(user);
+            res.status(201).send(user);
             if (!req.body.username) {
                 res.status(400).send({
                     message: 'Please enter all fields!'
@@ -25,66 +25,66 @@ module.exports = {
                 return;
             }
         } catch (e) {
-            res.status(500).send(e)
+            res.status(500).send(e);
         }
 
     },
 
     async findAll(req, res) {
         try {
-            const users = await User.findAll({})
-            res.status(201).send(users)
+            const users = await User.findAll({});
+            res.status(201).send(users);
         } catch (e) {
-            res.status(400).send()
+            res.status(400).send();
         }
     },
 
     async findOne(req, res) {
-        const id = req.params.id
+        const id = req.params.id;
         try {
-            const user = await User.findAll({ where: { user_id: id } })
+            const user = await User.findAll({ where: { user_id: id } });
             if (user.length == 0) {
-                return res.status(404).send("Could not find the user with ID: " + id)
+                return res.status(404).send("Could not find the user with ID: " + id);
             }
-            res.send(user)
+            res.send(user);
         } catch (e) {
-            res.status(500).send(e)
+            res.status(500).send(e);
         }
     },
 
     async delete(req, res) {
-        const id = req.params.id
+        const id = req.params.id;
         try {
-            const user = await User.destroy({ where: { user_id: id } })
+            const user = await User.destroy({ where: { user_id: id } });
             if (!user) {
-                return res.status(404).send("Could not delete the user with ID: " + id)
+                return res.status(404).send("Could not delete the user with ID: " + id);
             }
-            res.send('User successfully deleted')
+            res.send('User successfully deleted');
         } catch (e) {
-            res.status(500).send(e)
+            res.status(500).send(e);
         }
     },
 
     async update(req, res) {
 
-        const id = req.params.id
-        const updates = Object.keys(req.body)
-        const allowedUpdates = ['first_name', 'last_name', 'email', 'password', 'age']
-        const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+        const id = req.params.id;
+        const updates = Object.keys(req.body);
+        const allowedUpdates = ['first_name', 'last_name', 'email', 'password', 'age'];
+        const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
         if (!isValidOperation) {
-            return res.status(400).send({ error: 'Invalid update!' })
+            return res.status(400).send({ error: 'Invalid update!' });
         }
         try {
-            const user = await User.update(req.body, { where: { user_id: id } })
+            const user = await User.update(req.body, { where: { user_id: id } });
             if (user == 0) {
-                res.send('Cannot update user with ID: ' + id)
+                res.send('Cannot update user with ID: ' + id);
             } else if (user == 1) {
-                res.status(200).send('Successfully updated user!')
+                res.status(200).send('Successfully updated user!');
 
             }
         } catch (e) {
-            res.status(500).send(e)
-            console.log(e)
+            res.status(500).send(e);
+            console.log(e);
         }
 
     }

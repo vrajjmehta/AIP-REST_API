@@ -1,10 +1,9 @@
-const { v4: uuidv4 } = require('uuid')
 const user = (sequelize, DataTypes) => {
     const User = sequelize.define('user', {
         user_id: {
             primaryKey: true,
-            type: DataTypes.UUID,
-            defaultValue: sequelize.UUIDV4,
+            type: DataTypes.UUIDV1(36),
+            defaultValue: DataTypes.UUIDV4,
             allowNull: false
         },
         username: {

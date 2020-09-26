@@ -1,4 +1,5 @@
 const db = require("../config/setup.js");
+const user = require("../routes/user.js");
 const User = db.users;
 const Op = db.Sequelize.Op;
 
@@ -14,14 +15,14 @@ module.exports = {
             email: req.body.email,
             username: req.body.username,
             password: req.body.password
-        }
+        };
         try {
             await User.create(user);
             res.status(201).send(user);
             if (!req.body.username) {
                 res.status(400).send({
                     message: 'Please enter all fields!'
-                })
+                });
                 return;
             }
         } catch (e) {
@@ -31,9 +32,25 @@ module.exports = {
     },
 
     async findAll(req, res) {
+        const username = req.query.username;
         try {
+            if (username){
+                const user = await User.findAll({
+                    where:{
+                        username: username
+                    }
+                });
+                if (user.length !=0 ){
+                    res.status(200).send(user);
+                }
+                else{
+                    res.status(404).send({
+                        'message':'User not found'
+                    });
+                }
+            }
             const users = await User.findAll({});
-            res.status(201).send(users);
+            res.status(200).send(users);
         } catch (e) {
             res.status(400).send();
         }
@@ -42,7 +59,10 @@ module.exports = {
     async findOne(req, res) {
         const id = req.params.id;
         try {
-            const user = await User.findAll({ where: { user_id: id } });
+            const user = await User.findAll({
+                    where: { 
+                        user_id: id 
+                    } });
             if (user.length == 0) {
                 return res.status(404).send("Could not find the user with ID: " + id);
             }
@@ -88,4 +108,4 @@ module.exports = {
         }
 
     }
-}
+};

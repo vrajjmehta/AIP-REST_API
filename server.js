@@ -14,9 +14,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //the below line is needed for each new model route created to connect to API
 require("./app/routes/user.js")(app);
 require("./app/routes/post.js")(app);
+require("./app/routes/reward.js")(app);
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-console.log('Server is up on port ' + PORT);
+    console.log('Server is up on port ' + PORT);
 });

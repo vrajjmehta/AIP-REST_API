@@ -9,7 +9,7 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //the below line is needed for each new model route created to connect to API
 require("./app/routes/user.js")(app);

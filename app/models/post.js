@@ -1,36 +1,36 @@
-const post = (sequelize, Sequelize) => {
+const post = (sequelize, DataTypes) => {
     const Post = sequelize.define('post', {
         post_id: {
             primaryKey: true,
-            type: Sequelize.UUIDV1(36),
-            defaultValue: Sequelize.UUIDV4
+            type: DataTypes.UUIDV1(36),
+            defaultValue: DataTypes.UUIDV4
         },
         added_by: {
-            type: Sequelize.UUIDV1(36),
+            type: DataTypes.UUIDV1(36),
             allowNull: false
         },
         offer_by: {
-            type: Sequelize.UUIDV1(36),
+            type: DataTypes.UUIDV1(36),
         },
         title: {
-            type: Sequelize.STRING(45),
+            type: DataTypes.STRING(45),
             allowNull: false,
         },
         description: {
-            type: Sequelize.TEXT
+            type: DataTypes.TEXT
         },
         added_datetime: {
-            type: Sequelize.DATE,
+            type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: Sequelize.NOW
+            defaultValue: DataTypes.NOW
         },
         status: {
-            type: Sequelize.STRING(35),
+            type: DataTypes.STRING(35),
             allowNull: false,
             defaultValue: 'Open'
         },
         proof:{
-            type: Sequelize.BOOLEAN,
+            type: DataTypes.BOOLEAN,
             defaultValue: 0
         }
     },

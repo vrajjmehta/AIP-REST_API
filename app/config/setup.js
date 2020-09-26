@@ -22,6 +22,7 @@ db.sequelize = sequelize;
 db.posts = require("../models/post.js")(sequelize, Sequelize);
 db.users = require("../models/user.js")(sequelize, Sequelize);
 db.rewards = require("../models/reward.js")(sequelize, Sequelize);
+db.postRewards = require("../models/post-reward.js")(sequelize, Sequelize);
 
 
 module.exports = db;

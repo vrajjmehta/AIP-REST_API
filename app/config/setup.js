@@ -19,7 +19,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 
-//db.customers = require("./customer.model.js")(sequelize, Sequelize);
+db.posts = require("../models/post.js")(sequelize, Sequelize);
 db.users = require("../models/user.js")(sequelize, Sequelize);
 
 

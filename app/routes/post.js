@@ -6,6 +6,8 @@ module.exports = app => {
     router.get("/:id", posts.findOne);
     router.get("/", posts.findAll);
     router.post("/", posts.createPost);
+    router.post("/add_rewards", posts.addRewardPost);
+    router.put("/apply_rewards", posts.applyRewardPost);
 
     app.use('/api/posts', router);
 };

@@ -1,6 +1,4 @@
 const db = require("../config/setup.js");
-const post = require("../routes/post.js");
-const { findAll } = require("./user.js");
 const Post = db.posts;
 const postRewards = db.postRewards;
 const Op = db.Sequelize.Op;
@@ -14,8 +12,19 @@ module.exports = {
                     post_id: req.params.id
                 }
             });
+
+            const rewards = await postRewards.findAll({
+                attributes: ['user_id', 'reward_name', 'qty'],
+                where:{
+                    post_id: req.params.id
+                }
+            });
+
             if (post.length != 0) {
-                res.status(200).send({ 'post': post });
+                res.status(200).send({ 
+                    'post': post,
+                    'rewards': rewards
+                });
             } else {
                 res.status(404).send({ "message": "Post not found" });
             }
@@ -24,30 +33,55 @@ module.exports = {
             res.status(500).send(e);
         }
     },
+
     async findAll(req, res) {
         try {
-            const keyword = req.query.keyword
-            const post = await Post.findAll({
-                where: {
-                    title: {
-                        [Op.like]: '%' +
-                            keyword + '%'
-                    }
-                }
+            const keyword = req.query.keyword;
+            const user_id = req.query.user_id;
+            var post = null;
 
-            })
+            if (keyword){
+                post = await Post.findAll({
+                    where: {
+                        [Op.or]: [{
+                                title: {
+                                    [Op.like]: '%' + keyword + '%'
+                                }
+                            },
+                            {
+                                description: {
+                                    [Op.like]: '%' + keyword + '%'
+                                }
+                            }
+                        ]
+                    }
+                });
+            }
+
+            else if (user_id){
+                post = await Post.findAll({
+                    where: {
+                        added_by: user_id
+                    }
+                });
+            }
+
+            else {
+                post = await Post.findAll();
+            }
+
             if (post.length == 0) {
                 res.status(404).send({ "message": "Post not found!" });
-            } else {
+            } 
+            else {
                 res.status(200).send({
                     'post': post
                 });
             }
         } catch (e) {
             res.status(500).send(e);
-            console.log(e)
+            console.log(e);
         }
-
     },
 
     async createPost(req, res) {
@@ -75,6 +109,59 @@ module.exports = {
                 "post": post
             });
         } catch (e) {
+            console.log(e);
+            res.status(400).send(e);
+        }
+    },
+
+    async addRewardPost(req, res){
+        try{
+            var rewards = req.body.reward;
+            for (i = 0; i < rewards.length; i++){
+                const inputRewards = {
+                    post_id: req.body.post_id,
+                    user_id: req.body.user_id,
+                    reward_name: rewards[i].name,
+                    qty: rewards[i].qty
+                };
+                const rewardPost = postRewards.create(inputRewards);
+            }
+
+            res.status(201).send({
+                "message": "Rewards added successfully"
+            });
+        }
+        catch(e){
+            console.log(e);
+            res.status(400).send(e);
+        }
+    },
+
+    async applyRewardPost(req, res){
+        try{
+            const req_proof = req.body.proof;
+            var req_status = "Assigned";
+            
+            if (req_proof == 1){
+                req_status = "Closed";
+            }
+
+            const post = await Post.update({ 
+                    offer_by: req.body.user_id,
+                    status: req_status,
+                    proof: req_proof
+                }, 
+                {
+                where: {
+                    post_id: req.body.post_id
+                }
+            });
+
+            res.status(200).send({
+                "message": "User applied successfully"
+            });
+        }
+        catch(e){
             console.log(e);
             res.status(400).send(e);
         }

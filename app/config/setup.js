@@ -14,7 +14,7 @@ const sequelize_dev = new Sequelize(dbConfig.development.database, dbConfig.deve
     }
 });
 
-const sequelize_prod = new Sequelize(dbConfig.development.database, dbConfig.development.user, dbConfig.development.password, {
+const sequelize_prod = new Sequelize(dbConfig.production.database, dbConfig.production.user, dbConfig.production.password, {
     dialect: 'mysql',
     operatorsAliases: 0,
 

@@ -18,7 +18,7 @@ module.exports = {
         database: process.env.DB_NAME,
         user: process.env.DB_USER,
         password: process.env.DB_PASS,
-        host: process.env.DB_HOST
+        CLOUD_SQL_CONNECTION_NAME: process.env.CLOUD_SQL_CONNECTION_NAME
     },
     pool: {
         max: 5,

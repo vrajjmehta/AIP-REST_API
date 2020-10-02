@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 require("./app/routes/user.js")(app);
 require("./app/routes/post.js")(app);
 require("./app/routes/reward.js")(app);
+require("./app/routes/favour.js")(app);
 
 const PORT = process.env.PORT || 3000;
 

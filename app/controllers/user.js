@@ -41,7 +41,7 @@ module.exports = {
                     }
                 });
                 if (user.length !=0 ){
-                    res.status(200).send(user);
+                    res.status(200).send({'users':user});
                 }
                 else{
                     res.status(404).send({
@@ -50,7 +50,7 @@ module.exports = {
                 }
             }
             const users = await User.findAll({});
-            res.status(200).send(users);
+            res.status(200).send({'users':users});
         } catch (e) {
             res.status(400).send();
         }
@@ -66,7 +66,9 @@ module.exports = {
             if (user.length == 0) {
                 return res.status(404).send("Could not find the user with ID: " + id);
             }
-            res.send(user);
+            res.send({
+                'user':user
+            });
         } catch (e) {
             res.status(500).send(e);
         }

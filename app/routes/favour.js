@@ -5,6 +5,7 @@ module.exports = app => {
 
     router.post("/add_transaction", favours.addTransaction);
     router.get("/transaction", favours.findAll);
+    router.put("/transaction", favours.updateTransaction);
 
     app.use('/api/favours', router);
 };

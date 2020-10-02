@@ -77,4 +77,25 @@ module.exports = {
             console.log(e);
         }
     },
+
+    async updateTransaction(req, res){
+        try{
+            const transactions = await Transaction.update({ 
+                    proof: req.body.proof
+                }, 
+                {
+                where: {
+                    transaction_id: req.body.transaction_id
+                }
+            });
+
+            res.status(200).send({
+                "message": "Proof uploaded successfully"
+            });
+        }
+        catch(e){
+            console.log(e);
+            res.status(400).send(e);
+        }
+    }
 };

@@ -20,10 +20,45 @@ module.exports = {
                 }
             });
 
+            // restucture the json format
+            var userRewards = [];
+            var reward = [];
+            user_id = rewards[0].user_id;
+
+            for (i = 0; i<rewards.length; ++i){
+                
+                if (user_id == rewards[i].user_id){
+                    reward.push({
+                        "reward_name": rewards[i].reward_name,
+                        "qty": rewards[i].qty
+                    });
+                }
+                else if(user_id != rewards[i].user_id){
+                    userRewards.push({
+                        "user_id": user_id,
+                        "rewards": reward
+                    });
+
+                    reward = [];
+                    user_id = rewards[i].user_id;
+
+                    reward.push({
+                        "reward_name": rewards[i].reward_name,
+                        "qty": rewards[i].qty
+                    });
+                }
+            }
+
+            userRewards.push({
+                "user_id": user_id,
+                "rewards": reward
+            });
+            // End of destructure code
+
             if (post.length != 0) {
                 res.status(200).send({ 
                     'post': post,
-                    'rewards': rewards
+                    'rewards': userRewards
                 });
             } else {
                 res.status(404).send({ "message": "Post not found" });

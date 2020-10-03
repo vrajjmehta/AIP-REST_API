@@ -1,3 +1,5 @@
 node_modules/
 .env
 app.yaml
+.vscode/launch.json
+test.js

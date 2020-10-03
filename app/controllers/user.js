@@ -67,7 +67,7 @@ module.exports = {
                 return res.status(404).send("Could not find the user with ID: " + id);
             }
             res.send({
-                'user':user
+                'users':user
             });
         } catch (e) {
             res.status(500).send(e);

@@ -1,5 +1,6 @@
 const db = require("../config/setup.js");
 const Post = db.posts;
+const User = db.users;
 const postRewards = db.postRewards;
 const Op = db.Sequelize.Op;
 
@@ -105,12 +106,35 @@ module.exports = {
                 post = await Post.findAll();
             }
 
+            var postUsers = [];
+
+            for (i=0; i<post.length; ++i){
+                const user = await User.findAll({
+                    where: { 
+                        user_id: post[i].added_by
+                    } });
+
+                const username = user[0].first_name + " " + user[0].last_name;
+                
+                console.log(username);
+
+                postUsers.push({
+                    "post_id": post[i].post_id,
+                    "username": username,
+                    "title": post[i].title,
+                    "description": post[i].description,
+                    "added_datetime": post[i].added_datetime,
+                    "status": post[i].status,
+                    "proof": post[i].proof
+                });
+            }
+
             if (post.length == 0) {
                 res.status(404).send({ "message": "Post not found!" });
             } 
             else {
                 res.status(200).send({
-                    'post': post
+                    'post': postUsers
                 });
             }
         } catch (e) {

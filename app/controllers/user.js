@@ -108,5 +108,30 @@ module.exports = {
             console.log(e);
         }
 
+    },
+
+    async login(req, res){
+        try{
+            const username = req.body.user.username;
+            const password = req.body.user.password;
+
+            const user = await User.findAll({
+                where: { 
+                    username: username,
+                    password: password 
+                } 
+            });
+
+            if (user.length == 0) {
+                return res.status(404).send({"message": "Incorrect user details!"});
+            }
+            res.send({
+                'message': "Successfully logged in",
+                'users': user
+            });
+        }
+        catch(e){
+            console.log(e);
+        }
     }
 };

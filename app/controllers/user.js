@@ -9,16 +9,15 @@ module.exports = {
     async create(req, res) {
 
         const user = {
-            user_id: req.body.user_id,
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            email: req.body.email,
-            username: req.body.username,
-            password: req.body.password
+            first_name: req.body.user.first_name,
+            last_name: req.body.user.last_name,
+            email: req.body.user.email,
+            username: req.body.user.username,
+            password: req.body.user.password
         };
         try {
             await User.create(user);
-            res.status(201).send(user);
+            res.status(201).send({"user":user});
             if (!req.body.username) {
                 res.status(400).send({
                     message: 'Please enter all fields!'

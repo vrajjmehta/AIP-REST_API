@@ -23,6 +23,11 @@ const transaction = (sequelize, DataTypes) => {
         proof:{
             type: DataTypes.BOOLEAN,
             defaultValue: 0
+        },
+        timestamp:{
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW
         }
     }, {
         timestamps: false,

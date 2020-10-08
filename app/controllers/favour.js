@@ -2,13 +2,14 @@ const db = require("../config/setup.js");
 const Transaction = db.transaction;
 const Op = db.Sequelize.Op;
 const {v4:uuid} = require('uuid');
+const favourService = require("../services/favour.js");
 const transaction = require("../models/transaction.js");
 
 module.exports = {
     async addTransaction(req, res) {
         try {
             const id = uuid();
-            var rewards = req.body.reward;
+            let rewards = req.body.reward;
             for (i = 0; i < rewards.length; i++) {
                 const inputTransaction = {
                     transaction_id: id,
@@ -35,41 +36,52 @@ module.exports = {
             const transaction_id = req.query.transaction_id;
             const user_owes = req.query.user_owes;
             const user_owed = req.query.user_owed;
-
+            
             if (transaction_id){
                 transactions = await Transaction.findAll({
                     where: {
                         transaction_id: transaction_id
                     }
                 });
+
+                outputTransactions = favourService.refactorTransactions(transactions);
             }
 
             else if (user_owes){
-                transactions = await Transaction.findAll({
+                outputTransactions = await Transaction.findAll({
                     where:{
                         user_owes: user_owes
-                    }
+                    },
+                    order: [
+                        ['transaction_id'],
+                        ['timestamp', 'DESC']
+                    ]
                 });
             }
 
             else if (user_owed){
-                transactions = await Transaction.findAll({
+                outputTransactions = await Transaction.findAll({
                     where:{
                         user_owed: user_owed
-                    }
+                    },
+                    order: [
+                        ['transaction_id'],
+                        ['timestamp', 'DESC']
+                    ]
                 });
+                outputTransactions = favourService.refactorUserTransactions(outputTransactions);
             }
-            
+
             else {
                 res.status(404).send({ "message": "Missing parameters!" });
             }
 
-            if (transactions.length == 0) {
+            if (outputTransactions.length == 0) {
                 res.status(404).send({ "message": "Transaction not found!" });
             } 
             else {
                 res.status(200).send({
-                    'transactions': transactions
+                    'transactions': outputTransactions
                 });
             }
         } catch (e) {

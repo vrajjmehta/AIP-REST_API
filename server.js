@@ -1,9 +1,9 @@
 const express = require('express');
-var bodyParser = require('body-parser');
+let bodyParser = require('body-parser');
 const cors = require("cors");
 const app = express();
 
-var corsOptions = {
+let corsOptions = {
     origin: "http://localhost:3000"
 };
 

@@ -32,10 +32,11 @@ const sequelize_prod = new Sequelize(dbConfig.production.database, dbConfig.prod
 const db = {};
 
 db.Sequelize = Sequelize;
-db.sequelize = sequelize;
 
-var sequelize = sequelize_dev;
-// var sequelize = sequelize_prod;
+let sequelize = sequelize_dev;
+// let sequelize = sequelize_prod;
+
+db.sequelize = sequelize;
 
 db.posts = require("../models/post.js")(sequelize, Sequelize);
 db.users = require("../models/user.js")(sequelize, Sequelize);

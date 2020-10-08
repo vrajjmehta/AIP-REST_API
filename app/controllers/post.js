@@ -1,8 +1,9 @@
 const db = require("../config/setup.js");
 const Post = db.posts;
-const User = db.users;
 const postRewards = db.postRewards;
 const Op = db.Sequelize.Op;
+const postService = require("../services/post.js");
+const sequelize = db.sequelize;
 
 module.exports = {
 
@@ -21,40 +22,7 @@ module.exports = {
                 }
             });
 
-            // restucture the json format
-            var userRewards = [];
-            var reward = [];
-            user_id = rewards[0].user_id;
-
-            for (i = 0; i<rewards.length; ++i){
-                
-                if (user_id == rewards[i].user_id){
-                    reward.push({
-                        "reward_name": rewards[i].reward_name,
-                        "qty": rewards[i].qty
-                    });
-                }
-                else if(user_id != rewards[i].user_id){
-                    userRewards.push({
-                        "user_id": user_id,
-                        "rewards": reward
-                    });
-
-                    reward = [];
-                    user_id = rewards[i].user_id;
-
-                    reward.push({
-                        "reward_name": rewards[i].reward_name,
-                        "qty": rewards[i].qty
-                    });
-                }
-            }
-
-            userRewards.push({
-                "user_id": user_id,
-                "rewards": reward
-            });
-            // End of destructure code
+            const userRewards = await postService.refactorPost(rewards);
 
             if (post.length != 0) {
                 res.status(200).send({ 
@@ -74,7 +42,9 @@ module.exports = {
         try {
             const keyword = req.query.keyword;
             const user_id = req.query.user_id;
-            var post = null;
+            const offer_by = req.query.offer_by;
+            const reward = req.query.reward;
+            let post = null;
 
             if (keyword){
                 post = await Post.findAll({
@@ -102,32 +72,62 @@ module.exports = {
                 });
             }
 
+            else if (offer_by){
+                post = await Post.findAll({
+                    where: {
+                        added_by: offer_by
+                    }
+                });
+            }
+
+            else if(reward){
+                try{
+                    const query = `
+                                    SELECT
+                                    distinct(post_reward_history.post_id),
+                                    concat(users.first_name, ' ', users.last_name) 'username',
+                                    posts.title,
+                                    posts.description,
+                                    posts.added_datetime,
+                                    posts.status,
+                                    posts.proof
+                                FROM 
+                                    post_reward_history,
+                                    posts,
+                                    users
+                                WHERE
+                                    reward_name = $reward
+                                    and
+                                    post_reward_history.post_id = posts.post_id
+                                    and
+                                    users.user_id = posts.added_by`;
+
+                    post = await sequelize.query(query, {
+                                                bind: { reward: reward }
+                                                });
+                    
+                    if (post[0].length !=0){
+                        res.status(200).send({
+                            'post': post[0]
+                        });
+                    }
+                    else{
+                        res.status(404).send({
+                            "message": "Post not found!"
+                        });
+                    }
+                }
+                catch(e){
+                    res.status(500).send(e);
+                    console.log(e);
+                }
+            }
+
             else {
                 post = await Post.findAll();
             }
 
-            var postUsers = [];
-
-            for (i=0; i<post.length; ++i){
-                const user = await User.findAll({
-                    where: { 
-                        user_id: post[i].added_by
-                    } });
-
-                const username = user[0].first_name + " " + user[0].last_name;
-                
-                console.log(username);
-
-                postUsers.push({
-                    "post_id": post[i].post_id,
-                    "username": username,
-                    "title": post[i].title,
-                    "description": post[i].description,
-                    "added_datetime": post[i].added_datetime,
-                    "status": post[i].status,
-                    "proof": post[i].proof
-                });
-            }
+            const postUsers = await postService.refactorPosts(post);
 
             if (post.length == 0) {
                 res.status(404).send({ "message": "Post not found!" });
@@ -152,7 +152,7 @@ module.exports = {
             };
             const post = await Post.create(inputPost);
 
-            var rewards = req.body.reward;
+            let rewards = req.body.reward;
             for (i = 0; i < rewards.length; i++) {
                 const inputRewards = {
                     post_id: post.post_id,
@@ -175,7 +175,7 @@ module.exports = {
 
     async addRewardPost(req, res){
         try{
-            var rewards = req.body.reward;
+            let rewards = req.body.reward;
             for (i = 0; i < rewards.length; i++){
                 const inputRewards = {
                     post_id: req.body.post_id,
@@ -183,11 +183,37 @@ module.exports = {
                     reward_name: rewards[i].name,
                     qty: rewards[i].qty
                 };
-                const rewardPost = postRewards.create(inputRewards);
+                
+                // Find the Rewards for the post already exists
+                const postReward = await postRewards.findAll({
+                    where: {
+                        post_id: req.body.post_id,
+                        user_id: req.body.user_id,
+                        reward_name: rewards[i].name
+                    }
+                });
+
+                // Check if it already exits and Update it with new rewards
+                if (postReward.length !=0){
+                    await postRewards.update({
+                        qty: rewards[i].qty
+                    },
+                    {
+                        where: {
+                            post_id: req.body.post_id,
+                            user_id: req.body.user_id,
+                            reward_name: rewards[i].name
+                        }
+                    });
+                }
+                // Create the Rewards for the post
+                else{
+                    await postRewards.create(inputRewards);
+                }
             }
 
             res.status(201).send({
-                "message": "Rewards added successfully"
+                "message": "Rewards added/updated successfully!"
             });
         }
         catch(e){
@@ -199,7 +225,7 @@ module.exports = {
     async applyRewardPost(req, res){
         try{
             const req_proof = req.body.proof;
-            var req_status = "Assigned";
+            let req_status = "Assigned";
             
             if (req_proof == 1){
                 req_status = "Closed";

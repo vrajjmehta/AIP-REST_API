@@ -1,7 +1,7 @@
 module.exports = app => {
     const posts = require("../controllers/post.js");
 
-    var router = require("express").Router();
+    let router = require("express").Router();
 
     router.get("/:id", posts.findOne);
     router.get("/", posts.findAll);

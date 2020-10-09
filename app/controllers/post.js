@@ -4,6 +4,8 @@ const postRewards = db.postRewards;
 const Op = db.Sequelize.Op;
 const postService = require("../services/post.js");
 const sequelize = db.sequelize;
+const {v4:uuid} = require('uuid');
+const Transaction = db.transaction;
 
 module.exports = {
 
@@ -15,14 +17,15 @@ module.exports = {
                 }
             });
 
-            const rewards = await postRewards.findAll({
-                attributes: ['user_id', 'reward_name', 'qty'],
-                where:{
-                    post_id: req.params.id
-                }
-            });
-
-            const userRewards = await postService.refactorPost(rewards);
+            if (post.length != 0){
+                const rewards = await postRewards.findAll({
+                    attributes: ['user_id', 'reward_name', 'qty'],
+                    where:{
+                        post_id: req.params.id
+                    }
+                });
+                const userRewards = await postService.refactorPost(rewards);
+            }
 
             if (post.length != 0) {
                 res.status(200).send({ 
@@ -229,6 +232,26 @@ module.exports = {
             
             if (req_proof == 1){
                 req_status = "Closed";
+
+                const rewards = await postRewards.findAll({
+                    attributes: ['user_id', 'reward_name', 'qty'],
+                    where:{
+                        post_id: req.body.post_id
+                    }
+                });
+
+                const id = uuid();
+                for (i = 0; i < rewards.length; i++) {
+                    const inputTransaction = {
+                        transaction_id: id,
+                        user_owes: rewards[i].user_id,
+                        user_owed: req.body.user_id,
+                        proof: req.body.proof,
+                        reward_name: rewards[i].reward_name,
+                        qty: rewards[i].qty
+                    };
+                    const transaction = await Transaction.create(inputTransaction);
+                }
             }
 
             const post = await Post.update({ 

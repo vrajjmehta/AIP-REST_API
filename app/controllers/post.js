@@ -11,6 +11,7 @@ module.exports = {
 
     async findOne(req, res) {
         try {
+            let userRewards = null;
             const post = await Post.findAll({
                 where: {
                     post_id: req.params.id
@@ -24,7 +25,7 @@ module.exports = {
                         post_id: req.params.id
                     }
                 });
-                const userRewards = await postService.refactorPost(rewards);
+                userRewards = await postService.refactorPost(rewards);
             }
 
             if (post.length != 0) {

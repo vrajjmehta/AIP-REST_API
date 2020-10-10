@@ -2,7 +2,8 @@ const db = require("../config/setup.js");
 const user = require("../routes/user.js");
 const User = db.users;
 const Op = db.Sequelize.Op;
-
+const bcrypt = require('bcryptjs');
+var jwt = require("jsonwebtoken");
 
 module.exports = {
 
@@ -113,25 +114,37 @@ module.exports = {
     async login(req, res){
         try{
             const username = req.body.user.username;
-            const password = req.body.user.password;
-
-            const user = await User.findAll({
-                where: { 
-                    username: username,
-                    password: password 
-                } 
+            const user = await User.findOne({
+                where: {
+                    username: username
+                }
             });
-
-            if (user.length == 0) {
-                return res.status(404).send({"message": "Incorrect user details!"});
+            if (!user) {
+                return res.status(404).send({
+                    message: 'Username or Password is incorrect!'
+                });
             }
-            res.send({
-                'message': "Successfully logged in",
-                'users': user
-            });
-        }
-        catch(e){
+
+            const isMatch = await bcrypt.compare(req.body.user.password, user.password);
+            const token = jwt.sign({ username: username.toString() }, 'thisismynewkey', { expiresIn: '1 hour' });
+            //const data = jwt.verify(token, 'thisismynewkey')
+            if (!isMatch) {
+                res.status(401).send({
+                    'message': 'Username or Password is incorrect!'
+                });
+            } else {
+                const finalUser = {
+                    'user_id': user.user_id,
+                    'username': user.username,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'email': user.email
+                };
+                res.status(200).send({ 'users': finalUser, token });
+            }
+        } catch (e) {
             console.log(e);
+            res.status(500).send('error 500');
         }
     }
 };

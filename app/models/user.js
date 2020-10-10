@@ -26,6 +26,10 @@ const user = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.STRING(35),
             allowNull: false
+        },
+        favour_qty:{
+            type: DataTypes.INTEGER(11),
+            allowNull: false
         }
     }, {
         timestamps: false,

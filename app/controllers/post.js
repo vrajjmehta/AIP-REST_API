@@ -64,7 +64,10 @@ module.exports = {
                                 }
                             }
                         ]
-                    }
+                    },
+                    order: [
+                        ['added_datetime', 'DESC']
+                    ]
                 });
             }
 
@@ -72,7 +75,10 @@ module.exports = {
                 post = await Post.findAll({
                     where: {
                         added_by: user_id
-                    }
+                    },
+                    order: [
+                        ['added_datetime', 'DESC']
+                    ]
                 });
             }
 
@@ -80,14 +86,17 @@ module.exports = {
                 post = await Post.findAll({
                     where: {
                         added_by: offer_by
-                    }
+                    },
+                    order: [
+                        ['added_datetime', 'DESC']
+                    ]
                 });
             }
 
             else if(reward){
                 try{
                     const query = `
-                                    SELECT
+                                SELECT
                                     distinct(post_reward_history.post_id),
                                     concat(users.first_name, ' ', users.last_name) 'username',
                                     posts.title,
@@ -104,7 +113,9 @@ module.exports = {
                                     and
                                     post_reward_history.post_id = posts.post_id
                                     and
-                                    users.user_id = posts.added_by`;
+                                    users.user_id = posts.added_by
+                                ORDER BY
+                                    added_datetime DESC;`;
 
                     post = await sequelize.query(query, {
                                                 bind: { reward: reward }
@@ -128,7 +139,13 @@ module.exports = {
             }
 
             else {
-                post = await Post.findAll();
+                post = await Post.findAll(
+                    {
+                        order: [
+                            ['added_datetime', 'DESC']
+                        ]
+                    }
+                );
             }
 
             const postUsers = await postService.refactorPosts(post);

@@ -1,3 +1,6 @@
+const db = require("../config/setup.js");
+const User = db.users;
+
 class favourService{
 
     static refactorTransactions(transactions){
@@ -25,9 +28,9 @@ class favourService{
     static refactorUserTransactions(transactions){
         let internalRewards = [];
         let finalTransactions = [];
-        let user_owes = transactions[0].user_owes;
-        let user_owed = transactions[0].user_owed;
         let transaction_id = transactions[0].transaction_id;
+        let proof = transactions[0].proof;
+        let timestamp = transactions[0].timestamp;
 
         for (let i = 0; i<transactions.length; ++i){
             
@@ -39,18 +42,16 @@ class favourService{
             }
             else if(transaction_id != transactions[i].transaction_id){
                 finalTransactions.push({
-                    "user_owes": user_owes,
-                    "user_owed": user_owed,
-                    "transactions": {
                         "transaction_id": transaction_id,
-                        "rewards": internalRewards
-                    }
+                        "rewards": internalRewards,
+                        "proof": proof,
+                        "timestamp": timestamp
                 });
 
                 internalRewards = [];
-                user_owes = transactions[i].user_owes;
-                user_owed = transactions[i].user_owed;
                 transaction_id = transactions[i].transaction_id;
+                proof = transactions[i].proof;
+                timestamp = transactions[i].timestamp;
 
                 internalRewards.push({
                     "reward_name": transactions[i].reward_name,
@@ -60,15 +61,50 @@ class favourService{
         }
 
         finalTransactions.push({
-            "user_owes": user_owes,
-            "user_owed": user_owed,
-            "transactions": {
                 "transaction_id": transaction_id,
-                "rewards": internalRewards
-            }
+                "rewards": internalRewards,
+                "proof": proof,
+                "timestamp": timestamp
         });
 
         return finalTransactions;
+    }
+
+    static async refactorFavours(favours, check){
+        try{
+            let favourUsers = [];
+            let user = null;
+
+            for (let i=0; i<favours.length; ++i){
+                if (check){
+                    user = await User.findAll({
+                        where: { 
+                            user_id: favours[i].user_owed
+                        } 
+                    });
+                }
+                else{
+                    user = await User.findAll({
+                        where: { 
+                            user_id: favours[i].user_owes
+                        } 
+                    });
+                }
+
+                const username = user[0].first_name + " " + user[0].last_name;
+                console.log(username);
+
+                favourUsers.push({
+                    "user_id": user[0].user_id,
+                    "username": username,
+                    "favour_qty": favours[i].favour_qty
+                });
+            }
+            return favourUsers;
+        }
+        catch(e){
+            console.log(e);
+        }
     }
 }
 

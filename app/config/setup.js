@@ -43,6 +43,7 @@ db.users = require("../models/user.js")(sequelize, Sequelize);
 db.rewards = require("../models/reward.js")(sequelize, Sequelize);
 db.postRewards = require("../models/post-reward.js")(sequelize, Sequelize);
 db.transaction = require("../models/transaction.js")(sequelize, Sequelize);
+db.favour = require("../models/favour.js")(sequelize, Sequelize);
 
 
 module.exports = db;

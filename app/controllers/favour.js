@@ -3,7 +3,7 @@ const Transaction = db.transaction;
 const Op = db.Sequelize.Op;
 const {v4:uuid} = require('uuid');
 const favourService = require("../services/favour.js");
-const transaction = require("../models/transaction.js");
+const Favour = db.favour;
 
 module.exports = {
     async addTransaction(req, res) {
@@ -33,35 +33,31 @@ module.exports = {
 
     async findAll(req, res) {
         try {
-            const transaction_id = req.query.transaction_id;
+            // const transaction_id = req.query.transaction_id;
             const user_owes = req.query.user_owes;
             const user_owed = req.query.user_owed;
+            let outputTransactions = [];
             
-            if (transaction_id){
+            // if (transaction_id){
+            //     transactions = await Transaction.findAll({
+            //         where: {
+            //             transaction_id: transaction_id
+            //         }
+            //     });
+                
+            //     if (transactions.length != 0){
+            //         outputTransactions = favourService.refactorTransactions(transactions);
+            //     }
+            // }
+
+            if (!(user_owes && user_owed)){
+                res.status(404).send({ "message": "Missing parameter, input should have both user_owes & user_owed!" });
+            }
+
+            else if (user_owes && user_owed){
                 transactions = await Transaction.findAll({
-                    where: {
-                        transaction_id: transaction_id
-                    }
-                });
-
-                outputTransactions = favourService.refactorTransactions(transactions);
-            }
-
-            else if (user_owes){
-                outputTransactions = await Transaction.findAll({
                     where:{
-                        user_owes: user_owes
-                    },
-                    order: [
-                        ['transaction_id'],
-                        ['timestamp', 'DESC']
-                    ]
-                });
-            }
-
-            else if (user_owed){
-                outputTransactions = await Transaction.findAll({
-                    where:{
+                        user_owes: user_owes,
                         user_owed: user_owed
                     },
                     order: [
@@ -69,7 +65,10 @@ module.exports = {
                         ['timestamp', 'DESC']
                     ]
                 });
-                outputTransactions = favourService.refactorUserTransactions(outputTransactions);
+
+                if (transactions.length != 0){
+                    outputTransactions = favourService.refactorUserTransactions(transactions);
+                }
             }
 
             else {
@@ -108,6 +107,54 @@ module.exports = {
         catch(e){
             console.log(e);
             res.status(400).send(e);
+        }
+    },
+
+    async findUserFavours(req, res){
+        try{
+            const user_id = req.query.user_id;
+            let favours_owes = [];
+            let favours_owed = [];
+
+            if (!user_id){
+                res.status(404).send({
+                    "message": "Missing paramter!"
+                });
+            }
+
+            favours_owes = await Favour.findAll({
+                attributes: ['user_owed', 'favour_qty'],
+                where:{
+                    user_owes: user_id
+                }
+            });
+
+            favours_owed = await Favour.findAll({
+                attributes: ['user_owes', 'favour_qty'],
+                where:{
+                    user_owed: user_id
+                }
+            });
+
+            if (favours_owed.length == 0){
+                favours_owed = null;
+            }
+            if (favours_owes.length == 0){
+                favours_owes = null;
+            }
+            else{
+                favours_owes = await favourService.refactorFavours(favours_owes, 1);
+                favours_owed = await favourService.refactorFavours(favours_owed, 0);
+            }
+
+            res.status(200).send({
+                "favours_owes": favours_owes,
+                "favours_owed": favours_owed
+            });
+        }
+        catch(e){
+            console.log(e);
+            res.status(500).send(e);
         }
     }
 };

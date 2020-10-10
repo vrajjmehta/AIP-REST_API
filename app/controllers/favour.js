@@ -1,9 +1,11 @@
 const db = require("../config/setup.js");
 const Transaction = db.transaction;
 const Op = db.Sequelize.Op;
+const {fn, col} = db.Sequelize;
 const {v4:uuid} = require('uuid');
 const favourService = require("../services/favour.js");
 const Favour = db.favour;
+const User = db.users;
 
 module.exports = {
     async addTransaction(req, res) {
@@ -150,6 +152,65 @@ module.exports = {
             res.status(200).send({
                 "favours_owes": favours_owes,
                 "favours_owed": favours_owed
+            });
+        }
+        catch(e){
+            console.log(e);
+            res.status(500).send(e);
+        }
+    },
+
+    async leaderboard(req, res){
+        try{
+            let high_favours = req.query.high_favours;
+            let order = req.query.order;
+            let users = null;
+
+            if(!order){
+                order = 'DESC';
+            }
+
+            // Least Debt 
+            if (high_favours == 1){
+                users = await User.findAll({
+                        attributes: ['user_id', [fn('CONCAT', col('first_name'), ' ', col('last_name')), 'username'], 'favour_qty',],
+                        where:{
+                            favour_qty:{
+                                [Op.gte]: 0
+                            }
+                        },
+                        order: [
+                            ['favour_qty', order]
+                        ],
+                        limit : 10
+                });
+            }
+            // Highest Debt
+            else {
+                // Reverse the order as favours are -ve
+                if(order == 'DESC'){
+                    order = 'ASC';
+                }
+                else{
+                    order = 'DESC';
+                }
+
+                users = await User.findAll({
+                    attributes: ['user_id', [fn('CONCAT', col('first_name'), ' ', col('last_name')), 'username'], 'favour_qty',],
+                    where:{
+                        favour_qty:{
+                            [Op.lte]: 0
+                        }
+                    },
+                    order: [
+                        ['favour_qty', order]
+                    ],
+                    limit : 10
+            });
+            }
+
+            res.status(200).send({
+                "users": users
             });
         }
         catch(e){

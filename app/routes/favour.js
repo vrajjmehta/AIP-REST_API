@@ -7,6 +7,7 @@ module.exports = app => {
     router.get("/transaction", favours.findAll);
     router.put("/transaction", favours.updateTransaction);
     router.get("/", favours.findUserFavours);
+    router.get("/leaderboard", favours.leaderboard);
 
     app.use('/api/favours', router);
 };

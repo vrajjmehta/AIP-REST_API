@@ -8,25 +8,19 @@ var jwt = require("jsonwebtoken");
 module.exports = {
 
     async create(req, res) {
-
-        const user = {
-            first_name: req.body.user.first_name,
-            last_name: req.body.user.last_name,
-            email: req.body.user.email,
-            username: req.body.user.username,
-            password: req.body.user.password
-        };
-        try {
+        try 
+        {
+            const user = {
+                first_name: req.body.user.first_name,
+                last_name: req.body.user.last_name,
+                email: req.body.user.email,
+                username: req.body.user.username,
+                password: await bcrypt.hash(req.body.user.password, 8)};
             await User.create(user);
             res.status(201).send({"user":user});
-            if (!req.body.username) {
-                res.status(400).send({
-                    message: 'Please enter all fields!'
-                });
-                return;
-            }
-        } catch (e) {
-            res.status(500).send(e);
+        } 
+        catch (e) {
+            res.status(500).send({'message': 'Username/email address not unqiue!'});
         }
 
     },

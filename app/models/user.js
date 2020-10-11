@@ -29,7 +29,8 @@ const user = (sequelize, DataTypes) => {
         },
         favour_qty:{
             type: DataTypes.INTEGER(11),
-            allowNull: false
+            allowNull: false,
+            defaultValue: 0
         }
     }, {
         timestamps: false,

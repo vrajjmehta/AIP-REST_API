@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 
 let corsOptions = {
-    origin: "http://localhost:3000"
+    origin: ["https://web-app-dot-aip-v1.ts.r.appspot.com", "http://localhost:3000"]
 };
 
 app.use(cors(corsOptions));

@@ -115,8 +115,6 @@ module.exports = {
     async findUserFavours(req, res){
         try{
             const user_id = req.query.user_id;
-            let favours_owes = [];
-            let favours_owed = [];
 
             if (!user_id){
                 res.status(404).send({
@@ -124,25 +122,21 @@ module.exports = {
                 });
             }
 
-            favours_owes = await Favour.findAll({
+            let favours_owes = await Favour.findAll({
                 attributes: ['user_owed', 'favour_qty'],
                 where:{
                     user_owes: user_id
                 }
             });
 
-            favours_owed = await Favour.findAll({
+            let favours_owed = await Favour.findAll({
                 attributes: ['user_owes', 'favour_qty'],
                 where:{
                     user_owed: user_id
                 }
             });
 
-            if (favours_owed.length == 0 && favours_owed.length == 0){
-                favours_owes = null;
-                favours_owed = null;
-            }
-            else if (favours_owed.length == 0 && favours_owed.length != 0){
+            if (favours_owed.length == 0 && favours_owes.length != 0){
                 favours_owed = null;
                 favours_owes = await favourService.refactorFavours(favours_owes, 1);
             }
@@ -153,6 +147,10 @@ module.exports = {
             else if(favours_owes.length != 0 && favours_owed.length != 0){
                 favours_owes = await favourService.refactorFavours(favours_owes, 1);
                 favours_owed = await favourService.refactorFavours(favours_owed, 0);
+            }
+            else if(favours_owes.length == 0 && favours_owed.length == 0){
+                favours_owes = null;
+                favours_owed = null;
             }
 
             res.status(200).send({

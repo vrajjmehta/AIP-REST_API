@@ -138,13 +138,19 @@ module.exports = {
                 }
             });
 
-            if (favours_owed.length == 0){
+            if (favours_owed.length == 0 && favours_owed.length == 0){
+                favours_owes = null;
                 favours_owed = null;
             }
-            if (favours_owes.length == 0){
-                favours_owes = null;
+            else if (favours_owed.length == 0 && favours_owed.length != 0){
+                favours_owed = null;
+                favours_owes = await favourService.refactorFavours(favours_owes, 1);
             }
-            else{
+            else if (favours_owes.length == 0 && favours_owed.length != 0){
+                favours_owes = null;
+                favours_owed = await favourService.refactorFavours(favours_owed, 0);
+            }
+            else if(favours_owes.length != 0 && favours_owed.length != 0){
                 favours_owes = await favourService.refactorFavours(favours_owes, 1);
                 favours_owed = await favourService.refactorFavours(favours_owed, 0);
             }

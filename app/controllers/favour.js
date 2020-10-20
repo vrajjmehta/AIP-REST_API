@@ -91,6 +91,41 @@ module.exports = {
         }
     },
 
+    async findOne(req, res) {
+        try {
+            const transaction_id = req.params.id;
+            let outputTransactions = [];
+            
+            if (transaction_id){
+                transactions = await Transaction.findAll({
+                    where: {
+                        transaction_id: transaction_id
+                    }
+                });
+
+                if (transactions.length != 0){
+                    outputTransactions = favourService.refactorUserTransactions(transactions);
+                }
+            }
+
+            else {
+                res.status(404).send({ "message": "Missing parameters!" });
+            }
+
+            if (outputTransactions.length == 0) {
+                res.status(404).send({ "message": "Transaction not found!" });
+            } 
+            else {
+                res.status(200).send({
+                    'transactions': outputTransactions
+                });
+            }
+        } catch (e) {
+            res.status(500).send(e);
+            console.log(e);
+        }
+    },
+
     async updateTransaction(req, res){
         try{
             const transactions = await Transaction.update({ 

@@ -5,6 +5,7 @@ module.exports = app => {
 
     router.post("/add_transaction", favours.addTransaction);
     router.get("/transaction", favours.findAll);
+    router.get("/transaction/:id", favours.findOne);
     router.put("/transaction", favours.updateTransaction);
     router.get("/", favours.findUserFavours);
     router.get("/leaderboard", favours.leaderboard);

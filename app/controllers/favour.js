@@ -163,6 +163,8 @@ module.exports = {
                     user_owes: user_id
                 }
             });
+            
+            console.log(favours_owes);
 
             let favours_owed = await Favour.findAll({
                 attributes: ['user_owes', 'favour_qty'],
@@ -188,9 +190,11 @@ module.exports = {
                 favours_owed = null;
             }
 
+            const finalFavours = await favourService.finalFavours(favours_owes, favours_owed);
+
             res.status(200).send({
-                "favours_owes": favours_owes,
-                "favours_owed": favours_owed
+                "favours_owes": finalFavours[0],
+                "favours_owed": finalFavours[1]
             });
         }
         catch(e){

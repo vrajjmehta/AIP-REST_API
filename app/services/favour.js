@@ -106,6 +106,54 @@ class favourService{
             console.log(e);
         }
     }
+
+    static async finalFavours(favours_owes, favours_owed){
+        try{
+            let finalFavourOwes = [];
+            let finalFavourOwed = [];
+
+            // loop to add favour to favour_owed if favour_qty<0
+            for(let i=0; i<favours_owes.length; ++i){
+                if (favours_owes[i].favour_qty < 0 ){
+                    finalFavourOwed.push({
+                        "user_id": favours_owes[i].user_id,
+                        "username": favours_owes[i].username,
+                        "favour_qty": favours_owes[i].favour_qty*(-1)
+                    });
+                }
+                else {
+                    finalFavourOwes.push({
+                        "user_id": favours_owes[i].user_id,
+                        "username": favours_owes[i].username,
+                        "favour_qty": favours_owes[i].favour_qty
+                    });
+                }
+            }
+
+            // loop to add favour to favour_owes if favour_qty<0
+            for(let i=0; i<favours_owed.length; ++i){
+                if (favours_owed[i].favour_qty < 0 ){
+                    finalFavourOwes.push({
+                        "user_id": favours_owed[i].user_id,
+                        "username": favours_owed[i].username,
+                        "favour_qty": favours_owed[i].favour_qty*(-1)
+                    });
+                }
+                else {
+                    finalFavourOwed.push({
+                        "user_id": favours_owed[i].user_id,
+                        "username": favours_owed[i].username,
+                        "favour_qty": favours_owed[i].favour_qty
+                    });
+                }
+                }
+
+            return [finalFavourOwes, finalFavourOwed];
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
 }
 
 module.exports = favourService;

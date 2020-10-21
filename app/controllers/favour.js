@@ -16,25 +16,26 @@ module.exports = {
                     "message": "Cannot do transaction with yourself"
                 });
             }
-
-            const id = uuid();
-            let rewards = req.body.reward;
-            for (i = 0; i < rewards.length; i++) {
-                const inputTransaction = {
-                    transaction_id: id,
-                    user_owes: req.body.user_owes,
-                    user_owed: req.body.user_owed,
-                    proof: req.body.proof,
-                    reward_name: rewards[i].name,
-                    qty: rewards[i].qty
-                };
-                transaction = await Transaction.create(inputTransaction);
-                // console.log(transaction.transaction_id);
+            else{
+                const id = uuid();
+                let rewards = req.body.reward;
+                for (i = 0; i < rewards.length; i++) {
+                    const inputTransaction = {
+                        transaction_id: id,
+                        user_owes: req.body.user_owes,
+                        user_owed: req.body.user_owed,
+                        proof: req.body.proof,
+                        reward_name: rewards[i].name,
+                        qty: rewards[i].qty
+                    };
+                    transaction = await Transaction.create(inputTransaction);
+                    // console.log(transaction.transaction_id);
+                }
+                res.status(201).send({
+                    "transaction_id": id,
+                    "message": "Transaction added successfully!"
+                });
             }
-            res.status(201).send({
-                "transaction_id": id,
-                "message": "Transaction added successfully!"
-            });
         } catch (e) {
             console.log(e);
             res.status(400).send(e);

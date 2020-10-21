@@ -32,7 +32,7 @@ module.exports = {
                 const user = await User.findAll({
                     where:{
                         username: username
-                    }
+                    },
                 });
                 if (user.length !=0 ){
                     res.status(200).send({'users':user});
@@ -43,7 +43,11 @@ module.exports = {
                     });
                 }
             }
-            const users = await User.findAll({});
+            const users = await User.findAll({
+                order: [
+                    ['first_name', 'ASC']
+                ]
+            });
             res.status(200).send({'users':users});
         } catch (e) {
             res.status(400).send();

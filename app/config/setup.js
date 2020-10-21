@@ -11,7 +11,18 @@ const sequelize_dev = new Sequelize(dbConfig.development.database, dbConfig.deve
         min: dbConfig.pool.min,
         acquire: dbConfig.pool.acquire,
         idle: dbConfig.pool.idle
-    }
+    },
+    dialectOptions: {
+        useUTC: false, //for reading from database
+        dateStrings: true,
+        typeCast: function (field, next) { // for reading from database
+        if (field.type === 'DATETIME') {
+            return field.string();
+        }
+            return next();
+        },
+    },
+    timezone: '+11:00'
 });
 
 const sequelize_prod = new Sequelize(dbConfig.production.database, dbConfig.production.user, dbConfig.production.password, {
@@ -24,9 +35,18 @@ const sequelize_prod = new Sequelize(dbConfig.production.database, dbConfig.prod
         acquire: dbConfig.pool.acquire,
         idle: dbConfig.pool.idle
     },
-    dialectOptions: { 
-        socketPath: `/cloudsql/${dbConfig.production.CLOUD_SQL_CONNECTION_NAME}`
+    dialectOptions: {
+        socketPath: `/cloudsql/${dbConfig.production.CLOUD_SQL_CONNECTION_NAME}`,
+        useUTC: false, //for reading from database
+        dateStrings: true,
+        typeCast: function (field, next) { // for reading from database
+        if (field.type === 'DATETIME') {
+            return field.string();
         }
+            return next();
+        },
+    },
+    timezone: '+11:00'
 });
 
 const db = {};

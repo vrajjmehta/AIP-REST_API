@@ -11,6 +11,12 @@ const User = db.users;
 module.exports = {
     async addTransaction(req, res) {
         try {
+            if (req.body.user_owes == req.body.user_owed){
+                res.status(400).send({
+                    "message": "Cannot do transaction with yourself"
+                });
+            }
+
             const id = uuid();
             let rewards = req.body.reward;
             for (i = 0; i < rewards.length; i++) {

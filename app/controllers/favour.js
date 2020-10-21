@@ -36,23 +36,10 @@ module.exports = {
 
     async findAll(req, res) {
         try {
-            // const transaction_id = req.query.transaction_id;
             const user_owes = req.query.user_owes;
             const user_owed = req.query.user_owed;
             let outputTransactions = [];
             
-            // if (transaction_id){
-            //     transactions = await Transaction.findAll({
-            //         where: {
-            //             transaction_id: transaction_id
-            //         }
-            //     });
-                
-            //     if (transactions.length != 0){
-            //         outputTransactions = favourService.refactorTransactions(transactions);
-            //     }
-            // }
-
             if (!(user_owes && user_owed)){
                 res.status(404).send({ "message": "Missing parameter, input should have both user_owes & user_owed!" });
             }
@@ -130,7 +117,8 @@ module.exports = {
     async updateTransaction(req, res){
         try{
             const transactions = await Transaction.update({ 
-                    proof: req.body.proof
+                    proof: req.body.proof,
+                    image_url: req.body.image_url
                 }, 
                 {
                 where: {

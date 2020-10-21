@@ -34,6 +34,7 @@ class favourService{
         let transaction_id = transactions[0].transaction_id;
         let proof = transactions[0].proof;
         let timestamp = transactions[0].timestamp;
+        let image_url = transactions[0].image_url;
 
         for (let i = 0; i<transactions.length; ++i){
             
@@ -48,13 +49,15 @@ class favourService{
                         "transaction_id": transaction_id,
                         "rewards": internalRewards,
                         "proof": proof,
-                        "timestamp": timestamp
+                        "timestamp": timestamp,
+                        "image_url": image_url
                 });
 
                 internalRewards = [];
                 transaction_id = transactions[i].transaction_id;
                 proof = transactions[i].proof;
                 timestamp = transactions[i].timestamp;
+                image_url = transactions[i].image_url;
 
                 internalRewards.push({
                     "reward_name": transactions[i].reward_name,
@@ -67,7 +70,8 @@ class favourService{
                 "transaction_id": transaction_id,
                 "rewards": internalRewards,
                 "proof": proof,
-                "timestamp": timestamp
+                "timestamp": timestamp,
+                "image_url": image_url
         });
 
         return finalTransactions;

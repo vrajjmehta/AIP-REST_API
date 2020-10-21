@@ -28,6 +28,10 @@ const transaction = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW
+        },
+        image_url:{
+            type: DataTypes.STRING(1000),
+            allowNull: true
         }
     }, {
         timestamps: false,

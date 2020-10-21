@@ -246,6 +246,7 @@ module.exports = {
     async applyRewardPost(req, res){
         try{
             const req_proof = req.body.proof;
+            const image_url = req.body.image_url;
             let req_status = "Assigned";
             
             if (req_proof == 1){
@@ -266,7 +267,8 @@ module.exports = {
                         user_owed: req.body.user_id,
                         proof: req.body.proof,
                         reward_name: rewards[i].reward_name,
-                        qty: rewards[i].qty
+                        qty: rewards[i].qty,
+                        image_url: image_url
                     };
                     const transaction = await Transaction.create(inputTransaction);
                 }

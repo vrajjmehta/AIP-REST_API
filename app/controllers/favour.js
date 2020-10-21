@@ -1,6 +1,7 @@
 const db = require("../config/setup.js");
 const Transaction = db.transaction;
 const Op = db.Sequelize.Op;
+const sequelize = db.sequelize;
 const {fn, col} = db.Sequelize;
 const {v4:uuid} = require('uuid');
 const favourService = require("../services/favour.js");
@@ -191,6 +192,12 @@ module.exports = {
             }
 
             const finalFavours = await favourService.finalFavours(favours_owes, favours_owed);
+            if (finalFavours[0].length == 0){
+                finalFavours[0] = null;
+            }
+            if (finalFavours[1].length == 0){
+                finalFavours[1] = null;
+            }
 
             res.status(200).send({
                 "favours_owes": finalFavours[0],
@@ -254,6 +261,47 @@ module.exports = {
 
             res.status(200).send({
                 "users": users
+            });
+        }
+        catch(e){
+            console.log(e);
+            res.status(500).send(e);
+        }
+    },
+
+    async cycleDetection(req, res){
+        try{
+            const user_id = req.params.id;
+
+            const query = `
+                        SELECT
+                            * 
+                        FROM 
+                            favours
+                        WHERE
+                            user_owes = $user_id
+                            OR 
+                            user_owed = $user_id
+                            `;
+
+            let favours = await sequelize.query(query, {
+                            bind: { user_id: user_id }
+                            });
+        
+            for (i=0; i<favours[0].length; ++i){
+                let graphFavours = await favourService.searchByFavourQty(favours[0][i].favour_qty);
+                const cycleDetection = await favourService.cycleDetection(graphFavours, user_id);
+                if (cycleDetection){
+                    const cycleFavours = await favourService.refactorCycleFavours(graphFavours);
+                    res.status(200).send({
+                        'cycle_detected': cycleDetection,
+                        'favours': cycleFavours
+                    });
+                }
+            }
+
+            res.status(404).send({
+                'message': 'No cycle detected!'
             });
         }
         catch(e){

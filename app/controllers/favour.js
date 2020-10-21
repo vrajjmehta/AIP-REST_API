@@ -22,10 +22,11 @@ module.exports = {
                     reward_name: rewards[i].name,
                     qty: rewards[i].qty
                 };
-                const transaction = await Transaction.create(inputTransaction);
+                transaction = await Transaction.create(inputTransaction);
                 // console.log(transaction.transaction_id);
             }
             res.status(201).send({
+                "transaction_id": id,
                 "message": "Transaction added successfully!"
             });
         } catch (e) {

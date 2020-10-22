@@ -285,14 +285,16 @@ module.exports = {
                             });
         
             for (i=0; i<favours[0].length; ++i){
-                let graphFavours = await favourService.searchByFavourQty(favours[0][i].favour_qty);
-                const cycleDetection = await favourService.cycleDetection(graphFavours, user_id);
-                if (cycleDetection){
-                    const cycleFavours = await favourService.refactorCycleFavours(graphFavours);
-                    res.status(200).send({
-                        'cycle_detected': cycleDetection,
-                        'favours': cycleFavours
-                    });
+                if (favours[0][i].favour_qty !=0 ){
+                    let graphFavours = await favourService.searchByFavourQty(favours[0][i].favour_qty);
+                    const cycleDetection = await favourService.cycleDetection(graphFavours, user_id);
+                    if (cycleDetection){
+                        const cycleFavours = await favourService.refactorCycleFavours(graphFavours);
+                        res.status(200).send({
+                            'cycle_detected': cycleDetection,
+                            'favours': cycleFavours
+                        });
+                    }
                 }
             }
 

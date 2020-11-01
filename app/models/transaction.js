@@ -1,3 +1,4 @@
+//Sequelize model for transactions, this is used to communicate with the database
 const transaction = (sequelize, DataTypes) => {
     const Transaction = sequelize.define('transaction', {
         transaction_id: {
@@ -20,16 +21,16 @@ const transaction = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER(11),
             allowNull: false
         },
-        proof:{
+        proof: {
             type: DataTypes.BOOLEAN,
             defaultValue: 0
         },
-        timestamp:{
+        timestamp: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW
         },
-        image_url:{
+        image_url: {
             type: DataTypes.STRING(1000),
             allowNull: true
         }

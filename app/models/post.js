@@ -1,3 +1,4 @@
+//Sequelize model for posts, this is used to communicate with the database
 const post = (sequelize, DataTypes) => {
     const Post = sequelize.define('post', {
         post_id: {
@@ -29,15 +30,13 @@ const post = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: 'Open'
         },
-        proof:{
+        proof: {
             type: DataTypes.BOOLEAN,
             defaultValue: 0
         }
-    },
-    {
+    }, {
         timestamps: false,
-    }
-    );
+    });
     return Post;
 };
 module.exports = post;

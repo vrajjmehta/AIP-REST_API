@@ -1,3 +1,4 @@
+//Sequelize model for post-rewards, this is used to communicate with the database
 const postReward = (sequelize, DataTypes) => {
     const PostReward = sequelize.define('post_reward_history', {
         post_id: {
@@ -20,12 +21,10 @@ const postReward = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER(11),
             allowNull: false
         }
-    },
-    {
+    }, {
         freezeTableName: true,
         timestamps: false,
-    }
-    );
+    });
     PostReward.removeAttribute('id');
     return PostReward;
 };

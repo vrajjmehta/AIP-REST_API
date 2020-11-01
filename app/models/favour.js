@@ -1,3 +1,4 @@
+//Sequelize model for favours, this is used to communicate with the database
 const favour = (sequelize, DataTypes) => {
     const Favour = sequelize.define('favour', {
         user_owes: {

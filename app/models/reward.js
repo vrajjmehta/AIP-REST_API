@@ -1,3 +1,4 @@
+//Sequelize model for rewards, this is used to communicate with the database
 const reward = (sequelize, DataTypes) => {
     const Reward = sequelize.define('reward', {
         reward_name: {

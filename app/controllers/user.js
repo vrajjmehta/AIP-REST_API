@@ -6,40 +6,38 @@ const bcrypt = require('bcryptjs');
 var jwt = require("jsonwebtoken");
 
 module.exports = {
-
+    //API for new user account creation
     async create(req, res) {
-        try 
-        {
+        try {
             const user = {
                 first_name: req.body.user.first_name,
                 last_name: req.body.user.last_name,
                 email: req.body.user.email,
                 username: req.body.user.username,
-                password: await bcrypt.hash(req.body.user.password, 8)};
+                password: await bcrypt.hash(req.body.user.password, 8)
+            };
             await User.create(user);
-            res.status(201).send({"user":user});
-        } 
-        catch (e) {
-            res.status(500).send({'message': 'Username/email address not unqiue!'});
+            res.status(201).send({ "user": user });
+        } catch (e) {
+            res.status(500).send({ 'message': 'Username/email address not unqiue!' });
         }
 
     },
-
+    //API which allows you to find all users by their username
     async findAll(req, res) {
         const username = req.query.username;
         try {
-            if (username){
+            if (username) {
                 const user = await User.findAll({
-                    where:{
+                    where: {
                         username: username
                     },
                 });
-                if (user.length !=0 ){
-                    res.status(200).send({'users':user});
-                }
-                else{
+                if (user.length != 0) {
+                    res.status(200).send({ 'users': user });
+                } else {
                     res.status(404).send({
-                        'message':'User not found'
+                        'message': 'User not found'
                     });
                 }
             }
@@ -48,30 +46,31 @@ module.exports = {
                     ['first_name', 'ASC']
                 ]
             });
-            res.status(200).send({'users':users});
+            res.status(200).send({ 'users': users });
         } catch (e) {
             res.status(400).send();
         }
     },
-
+    //API which allows you to find a user by their user id
     async findOne(req, res) {
         const id = req.params.id;
         try {
             const user = await User.findAll({
-                    where: { 
-                        user_id: id 
-                    } });
+                where: {
+                    user_id: id
+                }
+            });
             if (user.length == 0) {
                 return res.status(404).send("Could not find the user with ID: " + id);
             }
             res.send({
-                'users':user
+                'users': user
             });
         } catch (e) {
             res.status(500).send(e);
         }
     },
-
+    //API which allows you to delete a user by their ID, this is not implemtned on the client side, however it does work
     async delete(req, res) {
         const id = req.params.id;
         try {
@@ -84,9 +83,8 @@ module.exports = {
             res.status(500).send(e);
         }
     },
-
+    //API to allow user updates, API works but is not implemented on the client side
     async update(req, res) {
-
         const id = req.params.id;
         const updates = Object.keys(req.body);
         const allowedUpdates = ['first_name', 'last_name', 'email', 'password', 'age'];
@@ -100,17 +98,15 @@ module.exports = {
                 res.send('Cannot update user with ID: ' + id);
             } else if (user == 1) {
                 res.status(200).send('Successfully updated user!');
-
             }
         } catch (e) {
             res.status(500).send(e);
             console.log(e);
         }
-
     },
-
-    async login(req, res){
-        try{
+    //API for user login, handles user password and account check, whilst also assigning JWT token to users with correct credentials
+    async login(req, res) {
+        try {
             const username = req.body.user.username;
             const user = await User.findOne({
                 where: {
@@ -122,10 +118,8 @@ module.exports = {
                     message: 'Username or Password is incorrect!'
                 });
             }
-
             const isMatch = await bcrypt.compare(req.body.user.password, user.password);
             const token = jwt.sign({ username: username.toString() }, 'thisismynewkey', { expiresIn: '1 hour' });
-            //const data = jwt.verify(token, 'thisismynewkey')
             if (!isMatch) {
                 res.status(401).send({
                     'message': 'Username or Password is incorrect!'

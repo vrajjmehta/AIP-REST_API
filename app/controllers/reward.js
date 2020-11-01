@@ -3,6 +3,7 @@ const reward = require("../routes/reward.js");
 const Reward = db.rewards;
 const Op = db.Sequelize.Op;
 
+//API for finding all rewards
 module.exports = {
     async findAll(req, res) {
         try {

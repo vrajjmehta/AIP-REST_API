@@ -1,0 +1,40 @@
+Referencing
+Declan - The Complete Node.js Developer Course (3rd edition) by Andrew Mead (Udemy)
+I used this to learn Node.js, including implmenetation of JWTs for this assignment
+Vraj - 
+
+
+
+API List and Categories
+
+---User APIs ---
+
+Find All Users
+Find Specific User
+New User Sign-Up
+Update Specific User
+Delete Specific User
+Log-in
+Logout
+
+---Post APIs---
+-
+-
+-
+-
+---Reward APIs---
+-
+---Favour APIs---
+-
+-
+-
+-
+-
+-
+-
+---Upload APIs---
+-
+-
+-
+-
+-

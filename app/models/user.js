@@ -1,3 +1,4 @@
+//Sequelize model for users, this is used to communicate with the database
 const user = (sequelize, DataTypes) => {
     const User = sequelize.define('user', {
         user_id: {
@@ -27,7 +28,7 @@ const user = (sequelize, DataTypes) => {
             type: DataTypes.STRING(35),
             allowNull: false
         },
-        favour_qty:{
+        favour_qty: {
             type: DataTypes.INTEGER(11),
             allowNull: false,
             defaultValue: 0

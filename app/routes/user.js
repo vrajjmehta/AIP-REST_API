@@ -1,4 +1,6 @@
 module.exports = app => {
+
+    //below are the routes for all user APIs, without these no connection can be made to the user APIs
     const users = require("../controllers/user.js");
 
     let router = require("express").Router();

@@ -7,6 +7,7 @@ References
     Used to create directed graph and detect cycle
  
 API's deployed on App Engine of Google Cloud Platform (GCP) - Check app.yaml for configuration
+    (App Engine is a Serverless Environmnet that scales and descales automatically - Contributing for Innovation and Inventiveness)
 Production URL {{url}} - https://aip-v1.ts.r.appspot.com/
 Postman Collection - https://www.getpostman.com/collections/131b7ec3df7e4aabdafb
 

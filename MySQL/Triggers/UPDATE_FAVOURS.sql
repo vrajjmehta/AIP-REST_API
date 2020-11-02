@@ -1,8 +1,7 @@
--- TRIGGER to Insert the favour count between two users when a transaction is added
+-- TRIGGER to update the favour count between two users when a transaction is updated
 
-CREATE DEFINER=`root`@`%` TRIGGER `INSERT_FAVOURS` AFTER INSERT ON `transactions` FOR EACH ROW BEGIN	
-
-    DECLARE `check1` BOOLEAN;
+CREATE DEFINER=`root`@`%` TRIGGER `UPDATE_FAVOURS` AFTER UPDATE ON `transactions` FOR EACH ROW BEGIN
+	DECLARE `check1` BOOLEAN;
 	DECLARE `check2` BOOLEAN;
     
     # Check1 to check if user_owes and user_owed match 
@@ -26,16 +25,6 @@ CREATE DEFINER=`root`@`%` TRIGGER `INSERT_FAVOURS` AFTER INSERT ON `transactions
 				AND
 				user_owed = NEW.user_owes), 1, 0
     );
-    
-    # If proof not uploaded and favour table dont an existing transaction
-    IF (NEW.proof = 0 AND !`check1` AND !`check2`) THEN
-		INSERT INTO 
-			`favour-tracking`.favours 
-		SET
-			user_owes = NEW.user_owes,
-			user_owed = NEW.user_owed,
-			favour_qty = 0;
-	END IF;
     
     # If proof uploaded and favour table dont an existing transaction
     IF (NEW.proof = 1 AND !`check1` AND !`check2`) THEN

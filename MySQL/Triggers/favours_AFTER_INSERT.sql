@@ -1,3 +1,5 @@
+-- TRIGGER to update the final favour count for an individual user after insert
+
 CREATE DEFINER=`root`@`%` TRIGGER `favours_AFTER_INSERT` AFTER INSERT ON `favours` FOR EACH ROW BEGIN
 	UPDATE
 		users

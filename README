@@ -1,7 +1,14 @@
-Referencing
-Declan - The Complete Node.js Developer Course (3rd edition) by Andrew Mead (Udemy)
-I used this to learn Node.js, including implmenetation of JWTs for this assignment
-Vraj - 
+References
+- The Complete Node.js Developer Course (3rd edition) by Andrew Mead (Udemy) 
+    (We have used this to learn Node.js, including implmenetation of JWTs for this assignment)
+- Sequelize ORM (https://sequelize.org/)
+    Used to connect to MySQL database and execute queries
+- Trajan Graph (NPM Package - https://github.com/tmont/tarjan-graph)
+    Used to create directed graph and detect cycle
+ 
+API's deployed on App Engine of Google Cloud Platform (GCP) - Check app.yaml for configuration
+Production URL {{url}} - https://aip-v1.ts.r.appspot.com/
+Postman Collection - https://www.getpostman.com/collections/131b7ec3df7e4aabdafb
 
 API List and Categories
 ------------------------------------------------
@@ -75,9 +82,6 @@ INPUT ---- {
 }
 OUTPUT -----
 Successfully updated user!
----------------------------------------------------
-DELETE - Delete Specific User - {{url}}/api/users/<user_id>
-cannot currently run as all users have related posts, due to this the databse will not allow you to delete them.
 ---------------------------------------------------
 POST - Log-in - {{url}}/api/users/login
 INPUT -- 

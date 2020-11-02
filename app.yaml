@@ -1,0 +1,20 @@
+runtime: nodejs12
+env: flex
+instance_class: F1
+handlers:
+  - url: .*
+    script: auto
+
+env_variables:
+  DB_NAME: favour-tracking 
+  DB_USER: root
+  DB_PASS: process.env.DB_PASS
+  CLOUD_SQL_CONNECTION_NAME: aip-v1:australia-southeast1:favour-tracking-system
+
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+network: {}

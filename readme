@@ -7,34 +7,640 @@ Vraj -
 
 API List and Categories
 
----User APIs ---
-
-Find All Users
-Find Specific User
-New User Sign-Up
-Update Specific User
-Delete Specific User
-Log-in
+---User APIs and OUTPUT ---
+GET - Find All Users ---- {{url}}/api/users/
+{
+    "users": [
+        {
+            "user_id": "2cf25020-2008-4663-ade2-6091c87e4efa",
+            "username": "Alice",
+            "first_name": "Alice",
+            "last_name": "Alice",
+            "email": "Alice@gmail.com",
+            "password": "declan2000",
+            "favour_qty": -1
+        },
+        {
+            "user_id": "9bbf25ec-93b1-4e04-aed9-298ecd356f5c",
+            "username": "ben",
+            "first_name": "Benjamin",
+            "last_name": "Johnston",
+            "email": "ben@example.com",
+            "password": "$2a$08$LpwdKgFuxjMIbnmHviEG8.dYGsBuwfdR0katUZKk9cE8vP8QCg.eC",
+            "favour_qty": 11
+        },
+        {
+            "user_id": "f78a3211-b8e2-40a1-a44d-86d5e7902206",
+            "username": "Bobby",
+            "first_name": "Bobby",
+            "last_name": "Bobby",
+            "email": "Bobby@gmail.com",
+            "password": "$2a$08$4StF/rdfmLlokK78MFBXeuoXJ8FyP2lvh1AqEWKKWnJKrZOV5eXn6",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "56c2ee24-a8bd-404a-afc0-a400e1dbbb30",
+            "username": "Byron1",
+            "first_name": "Byron",
+            "last_name": "Glover",
+            "email": "byron@gmail.com",
+            "password": "$2a$08$BQmJXayKLr5DFTE2xF4S/u2jNGnm/uKJIafPub9vIxJnUVmKTZ/5e",
+            "favour_qty": -4
+        },
+        {
+            "user_id": "42625485-953b-45c9-a3c9-c3141c8d2425",
+            "username": "Carol",
+            "first_name": "Carol",
+            "last_name": "Carol",
+            "email": "Carol@gmail.com",
+            "password": "$2a$08$b.f/Qo.pQjpw.iKoxYipT.POLXbnuPQ3wCqHOnP/XT1eN0qxUCVZ2",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "ca83e7a7-ddfb-46a9-9da1-895c80497c14",
+            "username": "Declan1",
+            "first_name": "Declan",
+            "last_name": "Glover",
+            "email": "declan@gmail.com",
+            "password": "$2a$08$xmukFo/TlUdzoWu17PBk0Oe/h6HAiK1AJFAy1GPAgBNaFTnuMVtbG",
+            "favour_qty": -7
+        },
+        {
+            "user_id": "309557ed-a404-4e7b-9f84-56626986bb77",
+            "username": "greg",
+            "first_name": "Greg",
+            "last_name": "Greg",
+            "email": "greg@gmail.com",
+            "password": "$2a$08$UU2I1p78L8Q88ioav649kuuEpHe/A1n2bA0DtZ1o8D2cffeDzHjbq",
+            "favour_qty": -2
+        },
+        {
+            "user_id": "08b074f5-0bb3-41af-a215-ee6ab996ad8a",
+            "username": "Grey",
+            "first_name": "Grey",
+            "last_name": "Grey",
+            "email": "Grey@gmail.com",
+            "password": "$2a$08$rRMICYkLZsElWE0Mlo.7vOmbNn04V/Ywkatp8thqCYVRe3A7/GKUC",
+            "favour_qty": 1
+        },
+        {
+            "user_id": "f77bdb10-75ac-4177-89c4-9638875e4f42",
+            "username": "harry",
+            "first_name": "Harry",
+            "last_name": "Harry",
+            "email": "harry@gmail.com",
+            "password": "$2a$08$zR5fJzaVQkRtjzUIxzI5Wum2YoquNb6ekODa1qtOMyrJb/sA/KYHG",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "f137adcc-a96f-477e-bd13-a05e5385e62c",
+            "username": "Hiroko1",
+            "first_name": "Hiroko",
+            "last_name": "Ichikawa",
+            "email": "hiroko@gmail.com",
+            "password": "$2a$08$YeFHDyzTJZpQ/QEbgrDiJOLMmqKT.Z.qDx0JzOXQpeesqD5dlfRyK",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "d340f772-20ca-4ef5-91dd-7528b084d18e",
+            "username": "Hiromi1",
+            "first_name": "Hiromi",
+            "last_name": "Ichikawa",
+            "email": "hiromi@gmail.com",
+            "password": "$2a$08$WPZoHKPAsPSDB8IENXvI0ey0bMlu7sac8WuTOnHIBHpRcL6UqEvzu",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "16ed99d2-5cbe-41ae-8c36-072a5fe5ab8b",
+            "username": "Hiroyasu1",
+            "first_name": "Hiroyasu",
+            "last_name": "Ichikawa",
+            "email": "hiroyasu@gmail.com",
+            "password": "$2a$08$T6xpyCxfnJ40ly9KVWprO.9KvQzUTF.1C0fZXpUFhy6pF8RgXbPwi",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "a36a974d-ab7e-483e-8fd6-45783a528802",
+            "username": "Jim",
+            "first_name": "Jim",
+            "last_name": "Jim",
+            "email": "Jim@gmail.com",
+            "password": "$2a$08$arD2PvZAwYrHDN283ijaJuKb53bhr78kmBoD92Mb9JDnc.9GI4jIW",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "d77676b6-1f89-4633-8e09-c485d71a1e1f",
+            "username": "john",
+            "first_name": "John",
+            "last_name": "John",
+            "email": "john@gmail.com",
+            "password": "$2a$08$fPfjHxtlCsYF2lwgTcGqbOKECNSGFdqXVVQV9vye6B1Ib4R5FwPny",
+            "favour_qty": 2
+        },
+        {
+            "user_id": "d00b4b93-874b-4923-a600-092afce895c5",
+            "username": "John3422",
+            "first_name": "John3422",
+            "last_name": "John3422",
+            "email": "John3422@gmail.com",
+            "password": "$2a$08$1bPvQhBimlqBsEqzjpQIdegShNH/u8fG0qJToC8j.s7LhfVuWL76e",
+            "favour_qty": 2
+        },
+        {
+            "user_id": "149148a1-864e-498c-9204-fbec38d1e7e6",
+            "username": "Joy",
+            "first_name": "Joy",
+            "last_name": "Joy",
+            "email": "Joy@gmail.com",
+            "password": "$2a$08$sMY7S7QhYn5.TiX9CEp0ReqgiKpPrmgdPtHOnQ9RK5CRRscbEtlB.",
+            "favour_qty": 4
+        },
+        {
+            "user_id": "4b97fb15-d998-4d50-9078-9c6d10da7509",
+            "username": "Maria",
+            "first_name": "Maria",
+            "last_name": "Maria",
+            "email": "Maria@gmail.com",
+            "password": "$2a$08$V9VYw5UqdhhGlRTO9M/OyejfbC489l59RB0VDb8r2iwHQBJbSz3ji",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "6c4a45a3-098e-41ef-80a5-cf185dc28eb9",
+            "username": "mialiu",
+            "first_name": "mia",
+            "last_name": "liu",
+            "email": "mialiu@gmail.com",
+            "password": "$2a$08$XD27OLS6PvicPE2HqNtVme/BQmRAWYiMf1QGqP4scNUgUp07Pq5LO",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "6fb9c570-8189-4095-bb54-a549342b737b",
+            "username": "Tim",
+            "first_name": "Tim",
+            "last_name": "Tim",
+            "email": "Tim@gmail.com",
+            "password": "$2a$08$5ybmrbFzF8eR6ePrw9eV0ObpezdRuVrrSN27dyeGeAE643LPOPvB2",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "395f1a43-a6d7-4618-bc77-1f2e4c90c58e",
+            "username": "Tom",
+            "first_name": "Tom",
+            "last_name": "Tom",
+            "email": "Tom@gmail.com",
+            "password": "$2a$08$y.urvEyNKgHG80yoDEbi8.jb.cQH5P3U4CGdKJG7d02V99SbQ6C9C",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "763e62c7-f995-40a1-93a5-42b9540b897a",
+            "username": "Tony",
+            "first_name": "Tony",
+            "last_name": "Tony",
+            "email": "Tony@gmail.com",
+            "password": "$2a$08$T3/0w7tn7lX/poa2tHImd.rid68dlu9Wi.kKEgCCfBwHWbWWGCnEe",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "59a06f93-6b20-481d-a8fc-14e292436ced",
+            "username": "vrajjmehta1",
+            "first_name": "Vraj",
+            "last_name": "Mehta",
+            "email": "vrajjmehta@gmail.com",
+            "password": "$2a$08$0GU43l5bM1c3bqtR1Qwyyu9Ks.y3nNBfR5y7y5SDiLX1s6/TX9eue",
+            "favour_qty": -3
+        },
+        {
+            "user_id": "41920400-d6ec-4fb5-84c3-166f9ec34147",
+            "username": "yuzhao",
+            "first_name": "yu",
+            "last_name": "zhao",
+            "email": "yu@gmail.com",
+            "password": "$2a$08$3itENsPf0OJkBf0GOWgezOvVUthfLZZNSmFuN.GD9JBOxtvWe3qGS",
+            "favour_qty": -3
+        }
+    ]
+}
+------------------------------------------------
+GET - Find Specific User - {{url}}/api/users/2cf25020-2008-4663-ade2-6091c87e4efa
+{
+    "users": [
+        {
+            "user_id": "2cf25020-2008-4663-ade2-6091c87e4efa",
+            "username": "Alice",
+            "first_name": "Alice",
+            "last_name": "Alice",
+            "email": "Alice@gmail.com",
+            "password": "declan2000",
+            "favour_qty": -1
+        }
+    ]
+}
+--------------------------------------------------
+POST - New User Sign-Up -  {{url}}/api/users
+INPUT ---- {
+    "first_name":"Jonathon",
+    "username":"Jonathon1",
+    "last_name":"Glover",
+    "email":"jonathon300@gmail.com",
+    "password":"Jonathon20000@"
+}
+OUPUT ---- 
+{
+    "message": "Username/email address not unqiue!"
+}
+-----------------------------------------------------
+PUT - Update Specific User - {{url}}/api/users/2cf25020-2008-4663-ade2-6091c87e4efa
+INPUT ---- {
+    "password":"declan2000"
+}
+OUTPUT -----
+Successfully updated user!
+---------------------------------------------------
+DELETE - Delete Specific User - {{url}}/api/users/9bbf25ec-93b1-4e04-aed9-298ecd356f5c
+cannot currently run as all users have related posts, due to this the databse will not allow you to delete them.
+---------------------------------------------------
+POST - Log-in - {{url}}/api/users/login
+INPUT -- 
+{
+  "username":"Hiromi1",
+  "password":"Christina200"
+}
+OUPUT --
+Login Successful
+--------------------------------------------------
 Logout
-
+--------------------------------------------------
 ---Post APIs---
--
--
--
--
+GET - Find Particular Post - VRAJ to complete ------------------------------@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@_________________@@@@@@-----------------
+--------------------------------------------------
+GET - Find All Posts - 
+INPUT  --- {{url}}/api/posts?reward=Chocolate
+OUTPUT ---
+{
+    "post": [
+        {
+            "post_id": "8f7439b9-1c0a-4458-872f-20c2f0331f62",
+            "username": "Tony Tony",
+            "title": "ass112",
+            "description": "ee",
+            "added_datetime": "2020-10-26 13:20:39",
+            "status": "Assigned",
+            "proof": 0
+        },
+        {
+            "post_id": "247df827-caec-4e81-9657-9aaddf612cd8",
+            "username": "Benjamin Johnston",
+            "title": "asdf'",
+            "description": "asdf'",
+            "added_datetime": "2020-10-22 12:31:32",
+            "status": "Closed",
+            "proof": 1
+        },
+        {
+            "post_id": "db8ee580-3b69-409c-abef-6443f8e74a10",
+            "username": "Benjamin Johnston",
+            "title": "cxasdfas",
+            "description": "xxasdfasd",
+            "added_datetime": "2020-10-22 12:25:43",
+            "status": "Open",
+            "proof": 0
+        },
+        {
+            "post_id": "4b8b9d70-08be-43c7-abe7-c808310d0eb4",
+            "username": "Declan Glover",
+            "title": "adada",
+            "description": "dadadada",
+            "added_datetime": "2020-10-22 12:25:41",
+            "status": "Closed",
+            "proof": 1
+        },
+        {
+            "post_id": "46a03964-36be-4dc5-9a2d-64a1f5b53e24",
+            "username": "Declan Glover",
+            "title": "adadawwww",
+            "description": "adadad",
+            "added_datetime": "2020-10-22 12:25:24",
+            "status": "Open",
+            "proof": 0
+        },
+        {
+            "post_id": "518f079b-efa2-4820-8c9f-22b6f9d093ce",
+            "username": "Declan Glover",
+            "title": "test1",
+            "description": "adadad",
+            "added_datetime": "2020-10-22 12:25:16",
+            "status": "Open",
+            "proof": 0
+        },
+        {
+            "post_id": "ec20b0c4-f881-423a-8582-714739f4cd18",
+            "username": "Declan Glover",
+            "title": "test1",
+            "description": "adadad",
+            "added_datetime": "2020-10-22 12:25:16",
+            "status": "Open",
+            "proof": 0
+        },
+        {
+            "post_id": "ca898c35-df8d-4546-9f40-3b6a8a98cb66",
+            "username": "Benjamin Johnston",
+            "title": "asdfasdfc",
+            "description": "caasdf",
+            "added_datetime": "2020-10-22 12:24:59",
+            "status": "Open",
+            "proof": 0
+        },
+        {
+            "post_id": "f5a8399f-b98f-4742-b752-8dd85c2c2e96",
+            "username": "Benjamin Johnston",
+            "title": "asdfasdf",
+            "description": "asdfadsf",
+            "added_datetime": "2020-10-22 12:24:51",
+            "status": "Open",
+            "proof": 0
+        },
+        {
+            "post_id": "50299c5c-1c41-4d9e-b994-7b4905c67823",
+            "username": "Benjamin Johnston",
+            "title": "Please clean",
+            "description": "This needs a description",
+            "added_datetime": "2020-10-22 12:22:15",
+            "status": "Open",
+            "proof": 0
+        },
+        {
+            "post_id": "c4afa510-addf-4eb8-91e7-4d096c090008",
+            "username": "Declan Glover",
+            "title": "Clean the office",
+            "description": "Please clean the whole office",
+            "added_datetime": "2020-10-22 12:05:38",
+            "status": "Closed",
+            "proof": 1
+        },
+        {
+            "post_id": "b11967a2-bc11-4c27-b203-2bb62a43f047",
+            "username": "Declan Glover",
+            "title": "Give me a ride",
+            "description": "I want to go to the city at 4pm, please pick me up at my house at 2pm, 40 Fake street, Newtown",
+            "added_datetime": "2020-10-22 12:04:17",
+            "status": "Assigned",
+            "proof": 0
+        },
+        {
+            "post_id": "7f6ef165-d070-4b64-95d8-a5d862cb69a9",
+            "username": "Vraj Mehta",
+            "title": "Clean the house",
+            "description": "Mob and sweep the floor and clean the kitchen.",
+            "added_datetime": "2020-10-22 12:04:01",
+            "status": "Open",
+            "proof": 0
+        },
+        {
+            "post_id": "41a9e65a-3ad1-4ac1-806b-00dc30da06d5",
+            "username": "mia liu",
+            "title": "feed cats",
+            "description": "fees cats on this Friday",
+            "added_datetime": "2020-10-22 11:58:20",
+            "status": "Open",
+            "proof": 0
+        }
+    ]
+}
+---------------------------------------------------------
+POST - Create New Post - {{url}}/api/posts
+INPUT  ---
+{
+    "post" : {
+        "added_by": "2cf25020-2008-4663-ade2-6091c87e4efa",
+        "title": "Wash my car",
+        "description": "Need help cleaning the exterior"
+    },
+    "reward" : [
+        {
+        "name": "Coffee",
+        "qty" : 2
+        },
+        {
+        "name" : "Pizza",
+        "qty" : 3
+        }
+    ]
+}
+OUTPUT --- 
+{
+    "message": "Post successfully created",
+    "post": {
+        "post_id": "c1805de1-249d-4c1f-978f-ea8d8e996396",
+        "added_datetime": "2020-11-02T10:03:51.364Z",
+        "status": "Open",
+        "proof": false,
+        "added_by": "2cf25020-2008-4663-ade2-6091c87e4efa",
+        "title": "Wash my car",
+        "description": "Need help cleaning the exterior"
+    }
+}
+--------------------------------------------------------------
+POST - Add/Update Reward of Post - {{url}}/api/posts/add_rewards
+INPUT --- 
+{   
+    "post_id": "8f7439b9-1c0a-4458-872f-20c2f0331f62",
+    "user_id": "2cf25020-2008-4663-ade2-6091c87e4efa",
+    "reward" : [
+        {
+        "name": "Pizza",
+        "qty" : 4
+        },
+        {
+        "name": "Cupcake",
+        "qty": 2
+        }
+    ]
+}
+OUTPUT ---
+{
+    "message": "Rewards added/updated successfully!"
+}
+-------------------------------------------------------------
+PUT - Apply/Upload Proof For Post - {{url}}/api/posts/apply_rewards
+INPUT ---
+{   
+    "post_id": "c03d7810-41ad-4aff-8928-a08b5db22ca5",
+    "user_id": "8eff921e-cd56-4146-b902-d8d0438b0ae0",
+    "proof": 1,
+    "image_url": "https://firebasestorage.googleapis.com/v0/b/aip-v1.appspot.com/o/images%2Fweb.PNG?alt=media&token=a34473b2-6a2b-40a3-b030-95ef0469c17f"
+}
+OUTPUT --- 
+{
+    "message": "User applied successfully"
+}
+------------------------------------------------------------
 ---Reward APIs---
--
+GET - Find Reward - {{url}}/api/rewards
+OUTPUT ---
+[
+    {
+        "reward_name": "chocolate"
+    },
+    {
+        "reward_name": "coffee"
+    },
+    {
+        "reward_name": "cupcake"
+    },
+    {
+        "reward_name": "mint"
+    },
+    {
+        "reward_name": "pizza"
+    }
+]
+----------------------------------------------------------
 ---Favour APIs---
--
--
--
--
--
--
--
----Upload APIs---
--
--
--
--
--
+POST - Add Transaction - {{url}}/api/favours/add_transaction
+INPUT ---
+{
+    "user_owes": "6fb9c570-8189-4095-bb54-a549342b737b",
+    "user_owed": "395f1a43-a6d7-4618-bc77-1f2e4c90c58e",
+    "proof": 1,
+    "reward" : [
+        {
+            "name": "Coffee",
+            "qty" : 1
+        },
+        {
+            "name" : "Mint",
+            "qty" : 10
+        }
+    ]
+}
+OUPUT ---
+{
+    "transaction_id": "81228096-93ec-4146-a099-1fdf419f9778",
+    "message": "Transaction added successfully!"
+}
+----------------------------------------------------------------
+GET - Search Transaction -  
+OUPUT ---
+{
+    "transactions": [
+        {
+            "transaction_id": "81228096-93ec-4146-a099-1fdf419f9778",
+            "rewards": [
+                {
+                    "reward_name": "Mint",
+                    "qty": 10
+                },
+                {
+                    "reward_name": "Coffee",
+                    "qty": 1
+                }
+            ],
+            "proof": true,
+            "timestamp": "2020-11-02 21:23:57",
+            "image_url": null
+        }
+    ]
+}
+--------------------------------------------------------------
+GET - FInd Particular Transaction - 
+INPUT --- 
+{{url}}/api/favours/transaction/81228096-93ec-4146-a099-1fdf419f9778
+OUTPUT ---
+{
+    "transactions": [
+        {
+            "transaction_id": "81228096-93ec-4146-a099-1fdf419f9778",
+            "rewards": [
+                {
+                    "reward_name": "Coffee",
+                    "qty": 1
+                },
+                {
+                    "reward_name": "Mint",
+                    "qty": 10
+                }
+            ],
+            "proof": true,
+            "timestamp": "2020-11-02 21:23:57",
+            "image_url": null
+        }
+    ]
+}
+--------------------------------------------------------
+PUT - Upload Proof - {{url}}/api/favours/transaction
+INPUT ---
+{  
+    "transaction_id": "05ed3450-7692-4f8b-ae9c-2de2700678fa",
+    "proof": 1,
+    "image_url": "https://firebasestorage.googleapis.com/v0/b/aip-v1.appspot.com/o/images%2Fweb.PNG?alt=media&token=a34473b2-6a2b-40a3-b030-95ef0469c17f"
+}
+OUPUT ---
+{
+    "message": "Proof uploaded successfully"
+}
+-----------------------------------------------------------
+GET - Leaderboard - {{url}}/api/favours/leaderboard?high_favours=1&order=DESC
+OUPUT ---
+{
+    "users": [
+        {
+            "user_id": "149148a1-864e-498c-9204-fbec38d1e7e6",
+            "username": "Joy Joy",
+            "favour_qty": 11
+        },
+        {
+            "user_id": "395f1a43-a6d7-4618-bc77-1f2e4c90c58e",
+            "username": "Tom Tom",
+            "favour_qty": 11
+        },
+        {
+            "user_id": "9bbf25ec-93b1-4e04-aed9-298ecd356f5c",
+            "username": "Benjamin Johnston",
+            "favour_qty": 11
+        },
+        {
+            "user_id": "d00b4b93-874b-4923-a600-092afce895c5",
+            "username": "John3422 John3422",
+            "favour_qty": 2
+        },
+        {
+            "user_id": "d77676b6-1f89-4633-8e09-c485d71a1e1f",
+            "username": "John John",
+            "favour_qty": 2
+        },
+        {
+            "user_id": "08b074f5-0bb3-41af-a215-ee6ab996ad8a",
+            "username": "Grey Grey",
+            "favour_qty": 1
+        },
+        {
+            "user_id": "a36a974d-ab7e-483e-8fd6-45783a528802",
+            "username": "Jim Jim",
+            "favour_qty": 1
+        },
+        {
+            "user_id": "16ed99d2-5cbe-41ae-8c36-072a5fe5ab8b",
+            "username": "Hiroyasu Ichikawa",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "42625485-953b-45c9-a3c9-c3141c8d2425",
+            "username": "Carol Carol",
+            "favour_qty": 0
+        },
+        {
+            "user_id": "4b97fb15-d998-4d50-9078-9c6d10da7509",
+            "username": "Maria Maria",
+            "favour_qty": 0
+        }
+    ]
+}
+----------------------------------------------------------------------
+GET - Cycle Detection - 
+INPUT ---
+{{url}}/api/favours/cycle-detection/aedd4f31-a6b6-47a7-8641-10eddc1e195c
+OUPUT ---
+{
+    "message": "No cycle detected!"
+}
+------------------------------------------------------------------------

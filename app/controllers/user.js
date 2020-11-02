@@ -70,7 +70,7 @@ module.exports = {
             res.status(500).send(e);
         }
     },
-    //API which allows you to delete a user by their ID, this is not implemtned on the client side, however it does work
+    //API which allows you to delete a user by their ID, this is not implemented on the client side, however it does work
     async delete(req, res) {
         const id = req.params.id;
         try {

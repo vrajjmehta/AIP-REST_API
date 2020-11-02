@@ -1,13 +1,11 @@
-# Referencing
+Referencing
 Declan - The Complete Node.js Developer Course (3rd edition) by Andrew Mead (Udemy)
 I used this to learn Node.js, including implmenetation of JWTs for this assignment
 Vraj - 
 
-
-
-# API List and Categories
-
-## ---User APIs and OUTPUT ---
+API List and Categories
+------------------------------------------------
+User APIs and OUTPUT
 GET - Find All Users ---- {{url}}/api/users
 OUTPUT -
 {

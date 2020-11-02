@@ -3,13 +3,13 @@ const postReward = (sequelize, DataTypes) => {
     const PostReward = sequelize.define('post_reward_history', {
         post_id: {
             primaryKey: false,
-            type: DataTypes.UUIDV1(36),
+            type: DataTypes.UUIDV1(36),         // UUID for post_id
             defaultValue: DataTypes.UUIDV4,
             allowNull: false
         },
         user_id: {
             primaryKey: false,
-            type: DataTypes.UUIDV1(36),
+            type: DataTypes.UUIDV1(36),         // UUID for user_id
             defaultValue: DataTypes.UUIDV4,
             allowNull: false
         },

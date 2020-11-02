@@ -7,11 +7,16 @@ const sequelize = db.sequelize;
 const {v4:uuid} = require('uuid');
 const Transaction = db.transaction;
 
-module.exports = {
+// All the methods are coded with async/await syntax
+// It takes input from req (either body or query-parameters) and response a JSON output
 
+module.exports = {
+    // Method to find a particular post details using post_id as input
     async findOne(req, res) {
         try {
             let userRewards = null;
+
+            // Sequelize query to find post details with post_id
             const post = await Post.findAll({
                 where: {
                     post_id: req.params.id
@@ -19,12 +24,14 @@ module.exports = {
             });
 
             if (post.length != 0){
+                // Sequelize query to rewards from multiple users for the post
                 const rewards = await postRewards.findAll({
                     attributes: ['user_id', 'reward_name', 'qty'],
                     where:{
                         post_id: req.params.id
                     }
                 });
+                // Refactor rewards to group reward together with the user_id in JSON object
                 userRewards = await postService.refactorPost(rewards);
             }
 
@@ -42,6 +49,7 @@ module.exports = {
         }
     },
 
+    // Method to find all the posts with details (title, posted_by, added_datetime) sorted in desc by added_datetime
     async findAll(req, res) {
         try {
             const keyword = req.query.keyword;
@@ -50,6 +58,7 @@ module.exports = {
             const reward = req.query.reward;
             let post = null;
 
+            // Find posts with a specific keyword (searches Title and Description)
             if (keyword){
                 post = await Post.findAll({
                     where: {
@@ -71,6 +80,7 @@ module.exports = {
                 });
             }
 
+            // Find posts with the user_id (added_by)
             else if (user_id){
                 post = await Post.findAll({
                     where: {
@@ -82,6 +92,7 @@ module.exports = {
                 });
             }
 
+            // Find posts with user_id (offer_by)
             else if (offer_by){
                 post = await Post.findAll({
                     where: {
@@ -93,6 +104,7 @@ module.exports = {
                 });
             }
 
+            // Find posts with a specific reward
             else if(reward){
                 try{
                     const query = `
@@ -138,6 +150,7 @@ module.exports = {
                 }
             }
 
+            // If no paramaters passed, find all the posts
             else {
                 post = await Post.findAll(
                     {
@@ -148,6 +161,7 @@ module.exports = {
                 );
             }
 
+            // Refactor posts to include 'fullname' for user_id
             const postUsers = await postService.refactorPosts(post);
 
             if (post.length == 0) {
@@ -164,8 +178,10 @@ module.exports = {
         }
     },
 
+    // Method to create new post with the details provided and storing it into DB
     async createPost(req, res) {
         try {
+            // Create a post with sequelize
             const inputPost = {
                 added_by: req.body.post.added_by,
                 title: req.body.post.title,
@@ -173,6 +189,7 @@ module.exports = {
             };
             const post = await Post.create(inputPost);
 
+            // Loop to add multiple rewards for the same post
             let rewards = req.body.reward;
             for (i = 0; i < rewards.length; i++) {
                 const inputRewards = {
@@ -181,6 +198,7 @@ module.exports = {
                     reward_name: rewards[i].name,
                     qty: rewards[i].qty
                 };
+                // Sequelize method to store it to DB
                 const rewardPost = postRewards.create(inputRewards);
             }
 
@@ -194,8 +212,10 @@ module.exports = {
         }
     },
 
+    // Method to Edit the reward for a post OR add rewards from a different user to the same post
     async addRewardPost(req, res){
         try{
+            // Loop to Add multiple rewards from a different user
             let rewards = req.body.reward;
             for (i = 0; i < rewards.length; i++){
                 const inputRewards = {
@@ -243,8 +263,10 @@ module.exports = {
         }
     },
 
+    // Method to apply for the post to complete the task (Upload proof)
     async applyRewardPost(req, res){
         try{
+            // Input as proof (boolean) and image_url (Firebase link)
             const req_proof = req.body.proof;
             const image_url = req.body.image_url;
             let req_status = "Assigned";
@@ -274,6 +296,7 @@ module.exports = {
                 }
             }
 
+            // Sequelize query to update the post with the provided details
             const post = await Post.update({ 
                     offer_by: req.body.user_id,
                     status: req_status,

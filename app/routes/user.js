@@ -1,10 +1,10 @@
 module.exports = app => {
-
-    //below are the routes for all user APIs, without these no connection can be made to the user APIs
+    //  import user controller
     const users = require("../controllers/user.js");
 
     let router = require("express").Router();
 
+    //  below are the endpoint routes for all user APIs
     router.post("/", users.create);
     router.get("/", users.findAll);
     router.get("/:id", users.findOne);

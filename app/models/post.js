@@ -3,15 +3,15 @@ const post = (sequelize, DataTypes) => {
     const Post = sequelize.define('post', {
         post_id: {
             primaryKey: true,
-            type: DataTypes.UUIDV1(36),
+            type: DataTypes.UUIDV1(36),         // UUID for post_id
             defaultValue: DataTypes.UUIDV4
         },
         added_by: {
-            type: DataTypes.UUIDV1(36),
+            type: DataTypes.UUIDV1(36),         // UUID for added_by
             allowNull: false
         },
         offer_by: {
-            type: DataTypes.UUIDV1(36),
+            type: DataTypes.UUIDV1(36),         // UUID for offer_by
         },
         title: {
             type: DataTypes.STRING(45),

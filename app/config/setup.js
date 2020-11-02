@@ -1,6 +1,7 @@
 const dbConfig = require("../config/config.js");
 const Sequelize = require("sequelize");
 
+// Developemnt setup
 const sequelize_dev = new Sequelize(dbConfig.development.database, dbConfig.development.user, dbConfig.development.password, {
     host: dbConfig.development.host,
     dialect: 'mysql',
@@ -25,6 +26,7 @@ const sequelize_dev = new Sequelize(dbConfig.development.database, dbConfig.deve
     timezone: '+11:00'
 });
 
+// Production setup
 const sequelize_prod = new Sequelize(dbConfig.production.database, dbConfig.production.user, dbConfig.production.password, {
     dialect: 'mysql',
     operatorsAliases: 0,
@@ -52,6 +54,8 @@ const sequelize_prod = new Sequelize(dbConfig.production.database, dbConfig.prod
 const db = {};
 
 db.Sequelize = Sequelize;
+
+// Change variable depending on environment
 
 let sequelize = sequelize_dev;
 // let sequelize = sequelize_prod;

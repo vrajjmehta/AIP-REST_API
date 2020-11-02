@@ -2,15 +2,15 @@
 const transaction = (sequelize, DataTypes) => {
     const Transaction = sequelize.define('transaction', {
         transaction_id: {
-            type: DataTypes.UUIDV1(36),
+            type: DataTypes.UUIDV1(36),     // UUID for transaction_id
             allowNull: false
         },
         user_owes: {
-            type: DataTypes.UUIDV1(36),
+            type: DataTypes.UUIDV1(36),     // UUID for user_owes
             allowNull: false
         },
         user_owed: {
-            type: DataTypes.UUIDV1(36),
+            type: DataTypes.UUIDV1(36),     // UUID for user_owed
             allowNull: false
         },
         reward_name: {

@@ -23,6 +23,7 @@ module.exports = {
         }
 
     },
+
     //API which allows you to find all users by their username
     async findAll(req, res) {
         const username = req.query.username;
@@ -51,6 +52,7 @@ module.exports = {
             res.status(400).send();
         }
     },
+
     //API which allows you to find a user by their user id
     async findOne(req, res) {
         const id = req.params.id;
@@ -70,6 +72,7 @@ module.exports = {
             res.status(500).send(e);
         }
     },
+
     //API which allows you to delete a user by their ID, this is not implemtned on the client side, however it does work
     async delete(req, res) {
         const id = req.params.id;
@@ -83,6 +86,7 @@ module.exports = {
             res.status(500).send(e);
         }
     },
+
     //API to allow user updates, API works but is not implemented on the client side
     async update(req, res) {
         const id = req.params.id;
@@ -104,6 +108,7 @@ module.exports = {
             console.log(e);
         }
     },
+    
     //API for user login, handles user password and account check, whilst also assigning JWT token to users with correct credentials
     async login(req, res) {
         try {

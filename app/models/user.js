@@ -3,7 +3,7 @@ const user = (sequelize, DataTypes) => {
     const User = sequelize.define('user', {
         user_id: {
             primaryKey: true,
-            type: DataTypes.UUIDV1(36),
+            type: DataTypes.UUIDV1(36),         // UUID for user_id
             defaultValue: DataTypes.UUIDV4,
             allowNull: false
         },

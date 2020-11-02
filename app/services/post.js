@@ -2,6 +2,7 @@ const db = require("../config/setup.js");
 const User = db.users;
 
 class postService{
+    // Refactor post to merge multiple rewards to same post
     static async refactorPost(rewards){
         let userRewards = [];
         let reward = []; 
@@ -38,6 +39,7 @@ class postService{
         return userRewards;
     }
 
+    // Refactor post to include 'fullname' in the post object
     static async refactorPosts(post){
         let postUsers = [];
         let user = null;

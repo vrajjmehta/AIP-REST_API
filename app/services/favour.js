@@ -1,11 +1,10 @@
 const db = require("../config/setup.js");
 const User = db.users;
 const sequelize = db.sequelize;
-const Graph = require('tarjan-graph');
-const user = require("../models/user.js");
+const Graph = require('tarjan-graph');  // NPM package to create a graph with build-in methods
 
 class favourService{
-
+    // Refactor transactions to group mutliple rewards to same transaction_id
     static refactorTransactions(transactions){
         const rewards = [];
         const outputTransactions = [];
@@ -28,6 +27,7 @@ class favourService{
         return outputTransactions;
     }
 
+    // Refactor transactions to group mutliple rewards to same transaction_id with proof upload
     static refactorUserTransactions(transactions){
         let internalRewards = [];
         let finalTransactions = [];
@@ -77,6 +77,7 @@ class favourService{
         return finalTransactions;
     }
 
+    // Refactor the output to include 'fullname' in the favours object
     static async refactorFavours(favours, check){
         try{
             let favourUsers = [];
@@ -114,6 +115,7 @@ class favourService{
         }
     }
 
+    // Find 'fullname' for the favours
     static async finalFavours(favours_owes, favours_owed){
         try{
             let finalFavourOwes = [];
@@ -166,6 +168,7 @@ class favourService{
         }
     }
 
+    // Find 'fullname' for the favours
     static async refactorCycleFavours(favours){
         try{
             let cycleFavours = [];
@@ -198,6 +201,7 @@ class favourService{
         }
     }
 
+    //  sequelize query to search for favours with a specific qty
     static async searchByFavourQty(favour_qty){
         try{
             const query = `
@@ -220,19 +224,26 @@ class favourService{
         }
     }
 
+    // Detect whether the graph constructed with favours is forming a cycle
     static async cycleDetection(favours, user_id){
         try{
+            // Intialize two empty graphs objects
             const graphWithoutUserID = new Graph();
             const graphWithUserID = new Graph();
 
+            // Loop through 
             for(let i=0; i<favours.length; ++i){
+                // Add the vertex as user_owes and the directed connection with user_owed
                 if (favours[i].favour_qty > 0){
+                    // Graph without the user_id 
                     if (!(favours[i].user_owes == user_id || favours[i].user_owed == user_id)){
                         graphWithoutUserID.add(favours[i].user_owes, [favours[i].user_owed]);
                     }
+                    // Graph with user_id
                     graphWithUserID.add(favours[i].user_owes, [favours[i].user_owed]);
                 }
                 else if (favours[i].favour_qty < 0){
+                    // Graph without the user_id
                     if (!(favours[i].user_owes == user_id || favours[i].user_owed == user_id)){
                         graphWithoutUserID.add(favours[i].user_owed, [favours[i].user_owes]);
                     }
@@ -240,9 +251,9 @@ class favourService{
                 }
             }
 
+            // Detect whether the constructed graph has cycle
             console.log("Graph Without User ID has Cycle", graphWithoutUserID.hasCycle()); 
             console.log("Graph With User ID has Cycle", graphWithUserID.hasCycle()); 
-            // console.log(graph.getStronglyConnectedComponents());
 
             if (graphWithoutUserID.hasCycle() == false && graphWithUserID.hasCycle() == true){
                 return true;
